@@ -1,5 +1,7 @@
 'use client';
 
+import ServicesMegaMenu from './ServicesMegaMenu';
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, MapPin, ChevronDown } from 'lucide-react';
@@ -29,10 +31,15 @@ export default function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-8">
-                        <button className="hidden md:flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-balozy-gold transition-colors">
-                            Services
-                            <ChevronDown className="w-4 h-4" />
-                        </button>
+                        <div className="relative group">
+                            <button className="hidden md:flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-balozy-gold transition-colors py-2">
+                                Services
+                                <ChevronDown className="w-4 h-4" />
+                            </button>
+                            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                <ServicesMegaMenu />
+                            </div>
+                        </div>
                         <a href="#how-it-works" className="hidden md:block text-sm font-semibold text-gray-700 hover:text-balozy-gold transition-colors">
                             How it Works
                         </a>

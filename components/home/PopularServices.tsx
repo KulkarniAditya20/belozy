@@ -47,7 +47,7 @@ export default function PopularServices() {
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
                             className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"
-                           >
+                        >
                             Premium services for <br />
                             <span className="text-gray-400">every home need.</span>
                         </motion.h2>
@@ -59,7 +59,7 @@ export default function PopularServices() {
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
                     >
-                        <a href="/services" className="inline-flex items-center gap-2 group text-sm font-bold text-gray-900">
+                        <a href="/services_data" className="inline-flex items-center gap-2 group text-sm font-bold text-gray-900">
                             Explore all 50+ services
                             <div className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
                                 <Hammer className="w-3.5 h-3.5 group-hover:rotate-12" />

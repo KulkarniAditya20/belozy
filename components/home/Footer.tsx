@@ -33,7 +33,7 @@ export default function Footer() {
                         <ul className="space-y-4">
                             {['Plumbing', 'Electrical', 'Cleaning', 'Landscaping'].map((item) => (
                                 <li key={item}>
-                                    <a href={`/services#${item.toLowerCase()}`} className="text-sm font-bold text-gray-400 hover:text-black transition-colors">
+                                    <a href={`/services_data#${item.toLowerCase()}`} className="text-sm font-bold text-gray-400 hover:text-black transition-colors">
                                         {item}
                                     </a>
                                 </li>
