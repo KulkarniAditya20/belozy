@@ -60,82 +60,82 @@ const SERVICE_CATEGORIES: Category[] = [
     },
     {
         id: 'childcare',
-        label: 'Child Care, Tutors And Family Services',
+        label: 'Family & Care',
         icon: ChildCare,
         subcategories: [
-            { label: 'Babysitting', href: '/services_data/babysitting' },
-            { label: 'Taduling', href: '/services_data/taduling' },
-            { label: 'Home Tutoring', href: '/services_data/tutoring' }
+            { label: 'Professional Babysitting', href: '/services_data/babysitting' },
+            { label: 'Taduling Services', href: '/services_data/taduling' },
+            { label: 'Educational Tutoring', href: '/services_data/tutoring' }
         ]
     },
     {
         id: 'food',
-        label: 'Food & Catering',
+        label: 'Catering & Culinary',
         icon: Food,
         subcategories: [
-            { label: 'Personal Chef', href: '/services_data/personal-chef' },
-            { label: 'Catering Service', href: '/services_data/catering' },
-            { label: 'Bar Tending', href: '/services_data/bartending' }
+            { label: 'Personal Chef Services', href: '/services_data/personal-chef' },
+            { label: 'Event Catering', href: '/services_data/catering' },
+            { label: 'Professional Bartending', href: '/services_data/bartending' }
         ]
     },
     {
         id: 'beauty',
-        label: 'Beauty & Wellness',
+        label: 'Wellness & Beauty',
         icon: Beauty,
         subcategories: [
-            { label: 'Makeup Artist', href: '/services_data/makeup-artist' },
-            { label: 'Hair Stylist', href: '/services_data/hair-stylist' },
-            { label: 'Massage Therapy', href: '/services_data/massage-therapy' }
+            { label: 'Makeup Artistry', href: '/services_data/makeup-artist' },
+            { label: 'Professional Styling', href: '/services_data/hair-stylist' },
+            { label: 'Therapeutic Massage', href: '/services_data/massage-therapy' }
         ]
     },
     {
         id: 'moving',
-        label: 'Moving Services',
+        label: 'Relocation Services',
         icon: Moving,
         subcategories: [
-            { label: 'Local Moving', href: '/services_data/local-moving' },
-            { label: 'Long Distance Moving', href: '/services_data/long-distance-moving' },
-            { label: 'Packing Services', href: '/services_data/packing' }
+            { label: 'Residential Moving', href: '/services_data/local-moving' },
+            { label: 'Commercial Relocation', href: '/services_data/long-distance-moving' },
+            { label: 'Premium Packing', href: '/services_data/packing' }
         ]
     },
     {
         id: 'appliance',
-        label: 'Home Or Business Appliance Installation',
+        label: 'Installation Services',
         icon: Appliance,
         subcategories: [
-            { label: 'Refrigerator Installation', href: '/services_data/refrigerator-installation' },
-            { label: 'Washer/Dryer Installation', href: '/services_data/washer-dryer-installation' },
-            { label: 'TV Mounting', href: '/services_data/tv-mounting' }
+            { label: 'Appliance Fitting', href: '/services_data/refrigerator-installation' },
+            { label: 'System Setup', href: '/services_data/washer-dryer-installation' },
+            { label: 'Professional Mounting', href: '/services_data/tv-mounting' }
         ]
     },
     {
         id: 'landscape',
-        label: 'Landscaping & Interior Design',
+        label: 'Design & Landscaping',
         icon: Landscape,
         subcategories: [
-            { label: 'Lawn Mowing', href: '/services_data/lawn-mowing' },
-            { label: 'Garden Design', href: '/services_data/garden-design' },
-            { label: 'Interior Decorating', href: '/services_data/interior-decorating' }
+            { label: 'Estate Landscaping', href: '/services_data/lawn-mowing' },
+            { label: 'Bespoke Garden Design', href: '/services_data/garden-design' },
+            { label: 'Interior Curation', href: '/services_data/interior-decorating' }
         ]
     },
     {
         id: 'event',
-        label: 'Event DJ Services Kenya',
+        label: 'Event Entertainment',
         icon: DJ,
         subcategories: [
-            { label: 'Wedding DJ', href: '/services_data/wedding-dj' },
-            { label: 'Corporate Event DJ', href: '/services_data/corporate-event-dj' },
-            { label: 'Party DJ', href: '/services_data/party-dj' }
+            { label: 'Wedding Entertainment', href: '/services_data/wedding-dj' },
+            { label: 'Corporate Event Audio', href: '/services_data/corporate-event-dj' },
+            { label: 'Bespoke Playlists', href: '/services_data/party-dj' }
         ]
     },
     {
         id: 'shopping',
-        label: 'Shopping Delivery',
+        label: 'Concierge Delivery',
         icon: Shopping,
         subcategories: [
-            { label: 'Grocery Delivery', href: '/services_data/grocery-delivery' },
-            { label: 'Package Delivery', href: '/services_data/package-delivery' },
-            { label: 'Personal Shopping', href: '/services_data/personal-shopping' }
+            { label: 'Grocery Logistics', href: '/services_data/grocery-delivery' },
+            { label: 'Priority Shipping', href: '/services_data/package-delivery' },
+            { label: 'Personal Shopping Assistant', href: '/services_data/personal-shopping' }
         ]
     }
 ];
@@ -160,12 +160,12 @@ export default function ServicesMegaMenu() {
                         key={category.id}
                         onMouseEnter={() => setActiveCategory(category.id)}
                         className={`w-full px-4 py-3 flex items-center justify-between text-sm transition-colors ${activeCategory === category.id
-                            ? 'bg-white text-balozy-gold font-medium border-l-4 border-balozy-gold'
+                            ? 'bg-white text-[#0032FF] font-medium border-l-4 border-[#0032FF]'
                             : 'text-gray-600 hover:bg-gray-100'
                             }`}
                     >
                         <div className="flex items-center gap-3">
-                            <category.icon className={`w-4 h-4 ${activeCategory === category.id ? 'text-balozy-gold' : 'text-gray-400'}`} />
+                            <category.icon className={`w-4 h-4 ${activeCategory === category.id ? 'text-[#0032FF]' : 'text-gray-400'}`} />
                             <span className="text-left">{category.label}</span>
                         </div>
                         <ChevronRight className={`w-3 h-3 ${activeCategory === category.id ? 'opacity-100' : 'opacity-0'}`} />
@@ -180,7 +180,7 @@ export default function ServicesMegaMenu() {
                         <a
                             key={index}
                             href={sub.href}
-                            className="block px-4 py-2 text-sm text-gray-600 hover:text-balozy-gold hover:bg-gray-50 rounded-md transition-colors"
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-[#0032FF] hover:bg-gray-50 rounded-md transition-colors"
                         >
                             {sub.label}
                         </a>

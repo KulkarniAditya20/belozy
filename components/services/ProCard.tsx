@@ -65,7 +65,7 @@ export default function ProCard({
                                         Top Pro
                                     </span>
                                 )}
-                                <span className={`flex items-center text-sm ${isTopPro ? "text-[#00c68e]" : "text-balozy-gold"} font-bold`}>
+                                <span className={`flex items-center text-sm ${isTopPro ? "text-[#00c68e]" : "text-[#0032FF]"} font-bold`}>
                                     {isTopPro ? "Great " : ""}{rating} <Star className="w-4 h-4 fill-current ml-0.5" />
                                 </span>
                                 <span className="text-gray-500 text-sm">({reviewCount})</span>
