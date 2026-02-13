@@ -33,6 +33,9 @@ export default function Navbar() {
                             Services
                             <ChevronDown className="w-4 h-4" />
                         </button>
+                        <a href="/pros/1" className="hidden md:block text-sm font-semibold text-gray-700 hover:text-balozy-gold transition-colors">
+                            Pros
+                        </a>
                         <a href="#how-it-works" className="hidden md:block text-sm font-semibold text-gray-700 hover:text-balozy-gold transition-colors">
                             How it Works
                         </a>
