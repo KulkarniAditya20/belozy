@@ -24,35 +24,19 @@ export default function HeroSection() {
 
   return (
     <section className="relative overflow-hidden pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <svg
-          aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-28 sm:h-36"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <linearGradient id="waveLine" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#e5e7eb" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#fcd34d" stopOpacity="0.6" />
-            </linearGradient>
-          </defs>
-          <path fill="none" stroke="url(#waveLine)" strokeWidth="2"
-            d="M0,260 C160,240 320,220 480,230 C640,240 800,280 960,270 C1120,260 1280,240 1440,250" />
-        </svg>
-      </div>
+
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Trust Badge */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-yellow-100 border-2 border-yellow-300 text-yellow-800 px-6 py-2 rounded-full text-sm font-bold">
-            <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+          <div className="inline-flex items-center gap-2 bg-balozy-gold/10 border border-balozy-gold/20 text-balozy-gold px-6 py-2 rounded-full text-sm font-bold tracking-wide">
+            <Star className="w-4 h-4 fill-balozy-gold text-balozy-gold" />
             TRUSTED BY 50,000+ HOMEOWNERS
           </div>
         </div>
 
         {/* Hero Headline */}
         <h1
-          className={`${outfit.className} text-6xl sm:text-7xl lg:text-8xl font-semibold text-center mb-6 leading-tight tracking-tight`}
+          className={`${outfit.className} text-6xl sm:text-7xl lg:text-8xl font-semibold text-center mb-6 leading-tight tracking-tight text-gray-900`}
         >
           Your Home, Always
           <br />
@@ -63,72 +47,72 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="text-yellow-400 inline-block"
+              className="text-balozy-gold inline-block"
             >
               {words[index]}
             </motion.span>
           </AnimatePresence>
         </h1>
 
-        <p className="text-lg sm:text-xl text-gray-600 text-center max-w-3xl mx-auto mb-12">
+        <p className="text-lg sm:text-xl text-gray-600 text-center max-w-3xl mx-auto mb-12 font-medium">
           Find and book top-rated local professionals for plumbing, electrical,
           cleaning, and more. Transparent pricing, verified pros.
         </p>
 
         {/* Search Bar */}
-        <div className="bg-white rounded-2xl shadow-2xl p-3 max-w-4xl mx-auto flex flex-col md:flex-row gap-3">
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl">
-            <Search className="w-5 h-5 text-yellow-500" />
+        <div className="bg-white rounded-3xl shadow-2xl p-4 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 border border-gray-100">
+          <div className="flex-[1.5] flex items-center gap-3 px-5 py-4 bg-gray-50 rounded-2xl transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-balozy-gold/20">
+            <Search className="w-5 h-5 text-balozy-gold" />
             <input
               type="text"
               placeholder="What service do you need?"
-              className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500"
+              className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500 font-medium"
             />
           </div>
 
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl">
-            <MapPin className="w-5 h-5 text-yellow-500" />
+          <div className="flex-1 flex items-center gap-3 px-5 py-4 bg-gray-50 rounded-2xl transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-balozy-gold/20">
+            <MapPin className="w-5 h-5 text-balozy-gold" />
             <input
               type="text"
               placeholder="San Francisco, CA"
-              className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500"
+              className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500 font-medium"
             />
           </div>
 
-          <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl">
+          <button className="bg-balozy-blue hover:opacity-90 text-white px-10 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl active:scale-95">
             Search
           </button>
         </div>
 
         {/* Trust Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-md">
-            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Shield className="w-6 h-6 text-yellow-600" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 max-w-5xl mx-auto">
+          <div className="flex items-center gap-5 bg-white p-7 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="w-14 h-14 bg-balozy-gold/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <Shield className="w-7 h-7 text-balozy-gold" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Verified Pros</h3>
-              <p className="text-sm text-gray-600">100% background checked</p>
+              <h3 className="font-bold text-gray-900 text-lg">Verified Pros</h3>
+              <p className="text-sm text-gray-600 font-medium">100% background checked</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-md">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Clock className="w-6 h-6 text-blue-600" />
+          <div className="flex items-center gap-5 bg-white p-7 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="w-14 h-14 bg-balozy-blue/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <Clock className="w-7 h-7 text-balozy-blue" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Instant Booking</h3>
-              <p className="text-sm text-gray-600">Save time, book in seconds</p>
+              <h3 className="font-bold text-gray-900 text-lg">Instant Booking</h3>
+              <p className="text-sm text-gray-600 font-medium">Save time, book in seconds</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-md">
-            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Star className="w-6 h-6 text-yellow-600 fill-yellow-600" />
+          <div className="flex items-center gap-5 bg-white p-7 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="w-14 h-14 bg-balozy-gold/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <Star className="w-7 h-7 text-balozy-gold fill-balozy-gold" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Quality Guaranteed</h3>
-              <p className="text-sm text-gray-600">Happiness guarantee</p>
+              <h3 className="font-bold text-gray-900 text-lg">Quality Guaranteed</h3>
+              <p className="text-sm text-gray-600 font-medium">Happiness guarantee</p>
             </div>
           </div>
         </div>
