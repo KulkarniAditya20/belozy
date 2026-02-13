@@ -184,7 +184,7 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                       {proData.skills.map((skill, index) => (
                         <Badge
                           key={index}
-                          className="bg-[#FF0000] text-[#FFFFFF] text-base px-4 py-2 font-semibold"
+                          className="bg-[#F8B90C] text-[#000000] text-base px-4 py-2 font-semibold"
                         >
                           {skill}
                         </Badge>
@@ -222,44 +222,24 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
 
-              {/* Reviews Section */}
-              <Card>
+              {/* Action Buttons Card - Moved from Sidebar */}
+              <Card className="border-2 border-[#F8B90C]/20">
                 <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-[#000000] mb-6">
-                    Reviews
-                  </h2>
-                  <div className="space-y-4">
-                    {[5, 4, 3, 2, 1].map((stars) => (
-                      <div key={stars} className="flex items-center gap-4">
-                        <div className="flex items-center gap-1 min-w-[100px]">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <StarIcon
-                              key={i}
-                              className={`w-5 h-5 ${
-                                i < stars
-                                  ? "text-[#F8B90C] fill-[#F8B90C]"
-                                  : "text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <div className="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gray-300 rounded-full"
-                            style={{ width: "0%" }}
-                          />
-                        </div>
-                        <span className="text-sm text-gray-500 min-w-[40px] text-right">
-                          (
-                          {
-                            proData.reviews.breakdown[
-                              stars as keyof typeof proData.reviews.breakdown
-                            ]
-                          }
-                          )
+                  <div className="space-y-6">
+                    <Button className="w-full bg-[#F8B90C] hover:bg-[#F8B90C]/90 text-[#000000] py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                      Recommend to a friend
+                    </Button>
+
+                    <div className="pt-6 border-t border-gray-200">
+                      <div className="mb-4 flex items-center justify-between">
+                        <span className="text-3xl font-bold text-[#000000]">
+                          Kes {proData.price.toLocaleString()}
                         </span>
                       </div>
-                    ))}
+                      <Button className="w-full bg-[#F8B90C] hover:bg-[#F8B90C]/90 text-[#000000] py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                        Request a quote
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -269,12 +249,14 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
             <div className="lg:col-span-1">
               <div className="lg:sticky lg:top-24 space-y-6">
                 {/* Action Buttons Card */}
+                {/* Reviews Summary Section - Moved from Main Content */}
                 <Card className="border-2 border-[#F8B90C]/20">
                   <CardContent className="p-6">
-                    <div className="space-y-4">
-                      {/* review summary stars (read-only) */}
-                      <div className="flex items-center justify-center gap-2">
-                        {/* compute average rating */}
+                    <h2 className="text-xl font-bold text-[#000000] mb-6">
+                      Reviews
+                    </h2>
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-center gap-2 pb-4 border-bottom border-gray-100">
                         {(() => {
                           const totalReviews = proData.reviews.total;
                           const breakdown = proData.reviews.breakdown;
@@ -297,26 +279,48 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                                 ))}
                               </div>
                               <span className="text-sm text-gray-600">
-                                {totalReviews} review{totalReviews !== 1 && "s"}
+                                {totalReviews} reviews
                               </span>
                             </>
                           );
                         })()}
                       </div>
 
-                      <Button className="w-full bg-[#FF0000] hover:bg-[#FF0000]/90 text-[#FFFFFF] py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
-                        Recommend to a friend
-                      </Button>
-
-                      <div className="pt-4 border-t border-gray-200">
-                        <div className="mb-4">
-                          <span className="text-3xl font-bold text-[#000000]">
-                            Kes {proData.price.toLocaleString()}
-                          </span>
-                        </div>
-                        <Button className="w-full bg-[#FF0000] hover:bg-[#FF0000]/90 text-[#FFFFFF] py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
-                          Request a quote
-                        </Button>
+                      {/* detailed review breakdown */}
+                      <div className="space-y-4">
+                        {[5, 4, 3, 2, 1].map((stars) => (
+                          <div key={stars} className="flex items-center gap-4">
+                            <div className="flex items-center gap-1 min-w-[100px]">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <StarIcon
+                                  key={i}
+                                  className={`w-5 h-5 ${
+                                    i < stars
+                                      ? "text-[#F8B90C] fill-[#F8B90C]"
+                                      : "text-gray-300"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-[#F8B90C] rounded-full"
+                                style={{
+                                  width: `${(proData.reviews.breakdown[stars as keyof typeof proData.reviews.breakdown] / proData.reviews.total) * 100}%`,
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500 min-w-[30px] text-right">
+                              (
+                              {
+                                proData.reviews.breakdown[
+                                  stars as keyof typeof proData.reviews.breakdown
+                                ]
+                              }
+                              )
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </CardContent>
