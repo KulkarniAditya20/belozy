@@ -32,10 +32,13 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-10">
                         <div className="relative group">
-                            <button className="hidden md:flex items-center gap-1.5 text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors py-2 group-hover:text-[#0032FF]">
+                            <a 
+                                href="/services_data"
+                                className="hidden md:flex items-center gap-1.5 text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors py-2 group-hover:text-[#0032FF]"
+                            >
                                 Find Services
                                 <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                            </button>
+                            </a>
                             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                 <ServicesMegaMenu />
                             </div>
