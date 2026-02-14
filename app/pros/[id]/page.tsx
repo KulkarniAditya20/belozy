@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -10,10 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ArrowLeft,
-  Star,
   MapPin,
   CheckCircle2,
-  Building2,
   Star as StarIcon,
   Heart,
   ShieldCheck,
@@ -21,10 +17,19 @@ import {
   Award,
   MessageSquare,
   Share2,
+  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+
+const navItems = [
+  { id: "overview", label: "Overview" },
+  { id: "about", label: "About" },
+  { id: "services", label: "Services" },
+  { id: "projects", label: "Projects" },
+  { id: "reviews", label: "Reviews" },
+] as const;
 
 // Sample pro data - in a real app, this would come from an API based on the id
 const proData = {
@@ -39,16 +44,54 @@ const proData = {
     mobile: true,
   },
   skills: ["Drivers - for hire"],
+  services: [
+    {
+      id: "school-runs",
+      title: "School Runs",
+      description: "Safe daily pick-up and drop-off with reliable timing.",
+      priceFrom: 2500,
+      eta: "45-60 min",
+      image:
+        "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=800&h=500&fit=crop",
+    },
+    {
+      id: "airport-transfer",
+      title: "Airport Transfer",
+      description: "On-time airport pickups with luggage handling support.",
+      priceFrom: 3500,
+      eta: "60-90 min",
+      image:
+        "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=500&fit=crop",
+    },
+    {
+      id: "errand-driver",
+      title: "Errand Driver",
+      description: "Flexible driver support for shopping and city errands.",
+      priceFrom: 3000,
+      eta: "2-3 hours",
+      image:
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=500&fit=crop",
+    },
+  ],
+  pricingUnit: "hour",
   description:
     "I am a professional Driver, well conversant with the Nairobi roads, I can drop and pick your children from school, take them for swimming,shopping, Airport pick ups, general errands etc. I am flexible and Friendly. Trust me.. you will enjoy my company and the Stable and comfortable ride. I am comfortable driving automatic vehicles",
   featuredProjects: [
     {
       id: 1,
+      title: "School Pickup Service",
+      description:
+        "Managed daily school pickups for two children with fixed timing and safety-first handover.",
+      location: "Westlands, Nairobi",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
     },
     {
       id: 2,
+      title: "Airport Transfer",
+      description:
+        "Handled early-morning airport drop-off with luggage support and real-time coordination.",
+      location: "JKIA Route",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=200&fit=crop",
     },
@@ -71,8 +114,9 @@ const proData = {
   yearsInBusiness: "5+ years",
 };
 
-export default function ProProfilePage({ params }: { params: { id: string } }) {
+export default function ProProfilePage() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("overview");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,11 +126,36 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleSection?.target.id) {
+          setActiveSection(visibleSection.target.id);
+        }
+      },
+      {
+        rootMargin: "-25% 0px -60% 0px",
+        threshold: [0.15, 0.35, 0.6],
+      }
+    );
+
+    navItems.forEach((item) => {
+      const section = document.getElementById(item.id);
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#FDFDFD]">
+    <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main className="pt-24 pb-20">
+      <main className="pt-24 pb-28 lg:pb-20">
         <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
@@ -98,44 +167,52 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
             </Link>
           </div>
 
-          <div className="max-w-7xl mx-auto space-y-8">
+          <div className="max-w-7xl mx-auto space-y-10">
             {/* Modern Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#F8B90C] to-[#FFCF53] rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                  <Avatar className="h-40 w-40 border-4 border-white shadow-xl relative">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-200">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="relative">
+                  <Avatar className="h-28 w-28 border border-gray-200">
                     <AvatarImage
                       src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${proData.name}`}
                       alt={proData.name}
                     />
-                    <AvatarFallback className="text-4xl bg-[#F8B90C] text-[#000000]">
+                    <AvatarFallback className="text-2xl bg-gray-100 text-[#000000]">
                       {proData.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="absolute bottom-2 right-2 bg-green-500 h-6 w-6 rounded-full border-4 border-white shadow-sm" title="Online now"></div>
+                  <div className="absolute bottom-1 right-1 bg-green-500 h-3.5 w-3.5 rounded-full border-2 border-white" title="Online now"></div>
                 </div>
 
-                <div className="text-center md:text-left pt-2">
+                <div className="text-center md:text-left pt-1">
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-4">
-                    <h1 className="text-5xl font-extrabold text-[#000000] tracking-tight">
+                    <h1 className="text-4xl font-bold text-[#000000] tracking-tight">
                       {proData.name}
                     </h1>
-                    <Badge className="bg-[#F8B90C] text-[#000000] text-sm px-4 py-1.5 font-bold uppercase tracking-wider">
+                    <Badge className="bg-white text-gray-700 text-xs px-3 py-1 font-medium border border-gray-200">
                       {proData.badge}
                     </Badge>
                   </div>
                   
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 text-gray-600 font-medium">
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-5 text-gray-600">
                     <div className="flex items-center gap-2">
                       <StarIcon className="w-5 h-5 text-[#F8B90C] fill-[#F8B90C]" />
-                      <span className="text-lg text-[#000000]">{proData.reviews.rating}</span>
+                      <span className="text-lg font-semibold text-[#000000]">{proData.reviews.rating}</span>
                       <span className="text-gray-400">({proData.reviews.total} reviews)</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-gray-400" />
                       <span>{proData.location}</span>
                     </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-4">
+                    <Badge className="bg-white text-[#000000] border border-gray-200 px-3 py-1 text-xs font-medium">
+                      Kes {proData.price.toLocaleString()}/{proData.pricingUnit}
+                    </Badge>
+                    <Badge className="bg-white text-[#000000] border border-gray-200 px-3 py-1 text-xs font-medium">
+                      {proData.hiredCount} hires
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -152,15 +229,19 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
             </div>
 
             {/* Sticky Sub-Nav */}
-            <div className={`sticky top-20 z-10 transition-all duration-300 ${isScrolled ? "bg-white/80 backdrop-blur-md border-b shadow-sm py-2" : "bg-transparent py-4"}`}>
+            <div className={`sticky top-20 z-10 transition-all duration-300 ${isScrolled ? "bg-white border-b border-gray-200 py-2" : "bg-white py-4"}`}>
               <div className="max-w-7xl mx-auto flex items-center gap-8 overflow-x-auto no-scrollbar px-2">
-                {["Overview", "About", "Services", "Projects", "Reviews"].map((item) => (
+                {navItems.map((item) => (
                   <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-sm font-semibold text-gray-500 hover:text-[#000000] whitespace-nowrap py-2 border-b-2 border-transparent hover:border-[#F8B90C] transition-all"
+                    key={item.id}
+                    href={`#${item.id}`}
+                    className={`text-sm font-semibold whitespace-nowrap py-2 border-b-2 transition-all ${
+                      activeSection === item.id
+                        ? "text-[#000000] border-[#000000]"
+                        : "text-gray-500 border-transparent hover:text-[#000000] hover:border-[#F8B90C]"
+                    }`}
                   >
-                    {item}
+                    {item.label}
                   </a>
                 ))}
               </div>
@@ -175,22 +256,22 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                 <section id="overview" className="scroll-mt-40">
                   <h2 className="text-2xl font-bold mb-6">Overview</h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-6 rounded-xl bg-white border border-gray-200">
                       <ShieldCheck className="w-8 h-8 text-[#F8B90C] mb-3" />
                       <div className="text-sm font-bold text-[#000000]">Background Checked</div>
                       <div className="text-xs text-gray-400">Verified Professional</div>
                     </div>
-                    <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-6 rounded-xl bg-white border border-gray-200">
                       <Clock className="w-8 h-8 text-[#F8B90C] mb-3" />
                       <div className="text-sm font-bold text-[#000000]">{proData.responseTime}</div>
                       <div className="text-xs text-gray-400">Response Time</div>
                     </div>
-                    <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-6 rounded-xl bg-white border border-gray-200">
                       <Award className="w-8 h-8 text-[#F8B90C] mb-3" />
                       <div className="text-sm font-bold text-[#000000]">{proData.yearsInBusiness}</div>
                       <div className="text-xs text-gray-400">In Business</div>
                     </div>
-                    <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-6 rounded-xl bg-white border border-gray-200">
                       <MessageSquare className="w-8 h-8 text-[#F8B90C] mb-3" />
                       <div className="text-sm font-bold text-[#000000]">{proData.hiredCount} Hires</div>
                       <div className="text-xs text-gray-400">Successfully completed</div>
@@ -201,40 +282,37 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                 {/* About Section */}
                 <section id="about" className="scroll-mt-40">
                   <h2 className="text-2xl font-bold mb-4">About the pro</h2>
-                  <p className="text-lg text-gray-600 leading-relaxed max-w-3xl">
+                  <p className="text-base text-gray-600 leading-relaxed max-w-3xl">
                     {proData.description}
                   </p>
                 </section>
 
                 {/* Action Card Section (Main Column) */}
-                <Card className="bg-gradient-to-br from-white to-[#FDFDFD] border-2 border-[#F8B90C]/20 overflow-hidden rounded-3xl overflow-hidden shadow-xl lg:hidden xl:block">
+                <Card className="border border-gray-200 overflow-hidden rounded-2xl lg:hidden xl:block">
                   <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row">
-                      <div className="flex-1 p-10 border-b md:border-b-0 md:border-r border-gray-100">
+                      <div className="flex-1 p-8 border-b md:border-b-0 md:border-r border-gray-200">
                         <div className="flex flex-col h-full justify-between">
                           <div>
-                            <div className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Estimated Price</div>
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Estimated Price</div>
                             <div className="flex items-baseline gap-2">
-                              <span className="text-5xl font-black text-[#000000]">Kes {proData.price.toLocaleString()}</span>
-                              <span className="text-gray-400 font-medium">/ starting at</span>
+                              <span className="text-4xl font-bold text-[#000000]">Kes {proData.price.toLocaleString()}</span>
+                              <span className="text-gray-400">starting at</span>
                             </div>
                           </div>
                           
                           <div className="mt-8 flex items-center gap-3">
-                            <span className="relative flex h-3 w-3">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                            </span>
-                            <span className="text-sm font-bold text-green-600 uppercase tracking-wide">Available for hire today</span>
+                            <span className="inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                            <span className="text-sm font-medium text-gray-600">Available for hire today</span>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="p-10 bg-gray-50 flex-none md:w-[320px] lg:w-[380px] space-y-4">
-                        <Button className="w-full bg-[#F8B90C] hover:bg-[#F0B000] text-[#000000] py-8 text-lg font-black rounded-2xl shadow-lg hover:shadow-xl hover:translate-y-[-2px] transition-all">
+                      <div className="p-8 bg-gray-50 flex-none md:w-[320px] lg:w-[380px] space-y-3">
+                        <Button className="w-full bg-[#000000] hover:bg-[#111111] text-white py-6 text-base font-semibold rounded-xl">
                           Request a quote
                         </Button>
-                        <Button variant="outline" className="w-full bg-white text-[#000000] py-8 text-lg font-bold rounded-2xl border-2 border-gray-100 hover:border-[#F8B90C] hover:bg-white transition-all">
+                        <Button variant="outline" className="w-full bg-white text-[#000000] py-6 text-base font-semibold rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-white">
                           Recommend to a friend
                         </Button>
                       </div>
@@ -249,10 +327,49 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                     {proData.skills.map((skill, index) => (
                       <Badge
                         key={index}
-                        className="bg-gray-100 hover:bg-[#F8B90C]/10 text-[#000000] border-0 text-base px-6 py-3 rounded-full font-bold transition-colors cursor-default"
+                        className="bg-gray-100 text-[#000000] border-0 text-sm px-4 py-2 rounded-full font-medium cursor-default"
                       >
                         {skill}
                       </Badge>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    {proData.services.map((service) => (
+                      <Card
+                        key={service.id}
+                        className="rounded-2xl border border-gray-200 bg-white overflow-hidden"
+                      >
+                        <div className="relative aspect-[16/10] bg-gray-100">
+                          <Image
+                            src={service.image}
+                            alt={service.title}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        </div>
+                        <CardContent className="p-5 space-y-3">
+                          <div className="flex items-start justify-between gap-4">
+                            <h3 className="text-lg font-semibold text-[#000000]">{service.title}</h3>
+                            <Badge className="bg-gray-100 text-gray-600 border-0 px-3 py-1 text-xs">
+                              {service.eta}
+                            </Badge>
+                          </div>
+
+                          <p className="text-sm text-gray-600 leading-relaxed">{service.description}</p>
+
+                          <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+                            <p className="text-sm font-semibold text-[#000000]">
+                              From Kes {service.priceFrom.toLocaleString()}
+                            </p>
+                            <Button className="bg-[#000000] hover:bg-[#111111] text-white rounded-full px-4 h-9 text-sm">
+                              Get quote
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
                     ))}
                   </div>
                 </section>
@@ -261,32 +378,28 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                 <section id="projects" className="scroll-mt-40">
                   <div className="flex items-center justify-between mb-8">
                     <h2 className="text-2xl font-bold">Featured projects</h2>
-                    <Button variant="link" className="text-[#000000] font-bold underline-offset-4 decoration-2 decoration-[#F8B90C]">
+                    <Button variant="link" className="text-[#000000] font-semibold underline-offset-4">
                       View all projects
                     </Button>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {proData.featuredProjects.map((project) => (
-                      <motion.div
-                        key={project.id}
-                        whileHover={{ y: -8 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                        className="group relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shadow-lg"
-                      >
-                        <Image
-                          src={project.image}
-                          alt={`Project ${project.id}`}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          unoptimized
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="absolute bottom-8 left-8 text-white">
-                            <h3 className="text-xl font-bold">Recent Project</h3>
-                            <p className="text-sm text-white/80">Nairobi Metro Area</p>
-                          </div>
+                      <Card key={project.id} className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+                        <div className="relative aspect-[16/10] bg-gray-100">
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
                         </div>
-                      </motion.div>
+                        <CardContent className="p-5 space-y-2">
+                          <h3 className="text-base font-semibold text-[#000000]">{project.title}</h3>
+                          <p className="text-sm text-gray-600 leading-relaxed">{project.description}</p>
+                          <p className="text-xs text-gray-500">{project.location}</p>
+                        </CardContent>
+                      </Card>
                     ))}
                   </div>
                 </section>
@@ -295,15 +408,72 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
               {/* Sidebar Column */}
               <div className="lg:col-span-4">
                 <div className="lg:sticky lg:top-32 space-y-8">
-                  
+                  <Card className="rounded-2xl border border-gray-200 bg-white p-6">
+                    <div className="space-y-5">
+                      <div>
+                        <h2 className="text-xl font-semibold text-[#000000]">Request estimate</h2>
+                        <p className="text-sm text-gray-500 mt-1">Tell the pro about your project.</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-gray-500">Select a service</label>
+                          <select className="w-full h-11 rounded-lg border border-gray-200 px-3 text-sm bg-white text-[#000000] focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            {proData.services.map((service) => (
+                              <option key={service.id} value={service.id}>
+                                {service.title}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-medium text-gray-500">Zip code</label>
+                          <input
+                            className="w-full h-11 rounded-lg border border-gray-200 px-3 text-sm bg-white text-[#000000] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            placeholder="Enter zip code"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-gray-500">Date</label>
+                            <select className="w-full h-11 rounded-lg border border-gray-200 px-3 text-sm bg-white text-[#000000] focus:outline-none focus:ring-2 focus:ring-gray-200">
+                              <option>Flexible</option>
+                              <option>This week</option>
+                              <option>Next week</option>
+                              <option>This month</option>
+                            </select>
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-gray-500">Estimated hours</label>
+                            <select className="w-full h-11 rounded-lg border border-gray-200 px-3 text-sm bg-white text-[#000000] focus:outline-none focus:ring-2 focus:ring-gray-200">
+                              <option>1-2 hours</option>
+                              <option>3-4 hours</option>
+                              <option>5+ hours</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <Button className="w-full bg-[#000000] hover:bg-[#111111] text-white rounded-xl h-11 font-semibold">
+                        Request estimate
+                      </Button>
+
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        Share project details first, then compare and hire with confidence.
+                      </p>
+                    </div>
+                  </Card>
+
                   {/* Reviews Summary Section */}
                   <section id="reviews" className="scroll-mt-40">
-                    <Card className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-sm">
-                      <h2 className="text-xl font-black mb-8 underline decoration-4 decoration-[#F8B90C] underline-offset-8">Reviews</h2>
+                    <Card className="rounded-2xl border border-gray-200 bg-white p-7">
+                      <h2 className="text-xl font-semibold mb-7">Reviews</h2>
                       
                       <div className="space-y-8">
                         <div className="flex items-center gap-6">
-                          <div className="text-5xl font-black">{proData.reviews.rating}</div>
+                          <div className="text-5xl font-semibold">{proData.reviews.rating}</div>
                           <div className="space-y-1">
                             <div className="flex items-center gap-1">
                               {Array.from({ length: 5 }).map((_, i) => (
@@ -313,14 +483,14 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                                 />
                               ))}
                             </div>
-                            <div className="text-sm font-bold text-gray-400 capitalize">{proData.reviews.total} verified reviews</div>
+                            <div className="text-sm font-medium text-gray-500 capitalize">{proData.reviews.total} verified reviews</div>
                           </div>
                         </div>
 
                         {/* Keyword Filters */}
-                        <div className="flex flex-wrap gap-2 pt-2 pb-6 border-y border-gray-100">
+                        <div className="flex flex-wrap gap-2 pt-2 pb-6 border-y border-gray-200">
                           {proData.reviews.keywords.map((kw) => (
-                            <span key={kw} className="text-xs font-bold px-3 py-1.5 bg-gray-50 rounded-full text-gray-500 hover:bg-gray-100 transition-colors cursor-pointer">
+                            <span key={kw} className="text-xs font-medium px-3 py-1.5 bg-gray-100 rounded-full text-gray-600 cursor-pointer">
                               {kw}
                             </span>
                           ))}
@@ -333,22 +503,20 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                             const percentage = (count / proData.reviews.total) * 100;
                             return (
                               <div key={stars} className="flex items-center gap-4">
-                                <span className="text-sm font-bold w-4">{stars}</span>
-                                <div className="flex-1 h-2 bg-gray-50 rounded-full overflow-hidden">
-                                  <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${percentage}%` }}
-                                    transition={{ duration: 1, delay: 0.5 }}
+                                <span className="text-sm font-semibold w-4">{stars}</span>
+                                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                  <div
+                                    style={{ width: `${percentage}%` }}
                                     className="h-full bg-[#F8B90C] rounded-full"
                                   />
                                 </div>
-                                <span className="text-xs font-medium text-gray-400 w-8">({count})</span>
+                                <span className="text-xs font-medium text-gray-500 w-8">({count})</span>
                               </div>
                             );
                           })}
                         </div>
 
-                        <Button variant="outline" className="w-full py-6 rounded-xl font-bold border-2 border-gray-100 hover:border-[#F8B90C] hover:bg-white transition-all mt-4">
+                        <Button variant="outline" className="w-full py-6 rounded-xl font-medium border border-gray-200 hover:border-gray-300 hover:bg-white mt-4">
                           Read all feedback
                         </Button>
                       </div>
@@ -356,21 +524,21 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
                   </section>
 
                   {/* Trust Badge Card */}
-                  <Card className="rounded-[2rem] border border-gray-100 bg-gray-900 text-white p-8">
+                  <Card className="rounded-2xl border border-gray-200 bg-white p-8">
                     <div className="space-y-6">
-                      <div className="h-12 w-12 rounded-xl bg-[#F8B90C] flex items-center justify-center">
-                        <ShieldCheck className="w-7 h-7 text-[#000000]" />
+                      <div className="h-11 w-11 rounded-xl bg-gray-100 flex items-center justify-center">
+                        <ShieldCheck className="w-6 h-6 text-[#000000]" />
                       </div>
-                      <h3 className="text-xl font-bold">Safe & Verified</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">
+                      <h3 className="text-lg font-semibold text-[#000000]">Safe & Verified</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
                         Donna S. has passed our safety screening process and is a top-rated pro on Balozy.
                       </p>
-                      <ul className="space-y-3 text-sm font-medium">
+                      <ul className="space-y-3 text-sm font-medium text-gray-700">
                         <li className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-[#F8B90C]" /> ID Verified
+                          <CheckCircle2 className="w-4 h-4 text-green-600" /> ID Verified
                         </li>
                         <li className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-[#F8B90C]" /> Licensed & Insured
+                          <CheckCircle2 className="w-4 h-4 text-green-600" /> Licensed & Insured
                         </li>
                       </ul>
                     </div>
@@ -381,6 +549,18 @@ export default function ProProfilePage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </main>
+
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-gray-200 bg-white px-4 py-3 lg:hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[#000000]">From Kes {proData.price.toLocaleString()}</p>
+            <p className="text-xs text-gray-500">Responds {proData.responseTime.toLowerCase()}</p>
+          </div>
+          <Button className="bg-[#000000] hover:bg-[#111111] text-white font-semibold rounded-full px-6">
+            Request quote
+          </Button>
+        </div>
+      </div>
 
       <Footer />
     </div>
