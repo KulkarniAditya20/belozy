@@ -2,9 +2,8 @@
 
 import ServicesMegaMenu from './ServicesMegaMenu';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, MapPin, ChevronDown } from 'lucide-react';
+import React from 'react';
+import { MapPin, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Navbar() {
@@ -32,7 +31,7 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-10">
                         <div className="relative group">
-                            <a 
+                            <a
                                 href="/services_data"
                                 className="hidden md:flex items-center gap-1.5 text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors py-2 group-hover:text-[#0032FF]"
                             >
@@ -43,6 +42,9 @@ export default function Navbar() {
                                 <ServicesMegaMenu />
                             </div>
                         </div>
+                        <a href="/blogs" className="hidden md:block text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors">
+                            Blog
+                        </a>
                         <a href="#how-it-works" className="hidden md:block text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors">
                             The Process
                         </a>
