@@ -16,36 +16,41 @@ export default function ServiceCard({
     description,
     index,
 }: ServiceCardProps) {
+    const borderThemes = [
+        'border-blue-200/90 hover:border-blue-400',
+        'border-yellow-300/90 hover:border-yellow-500',
+        'border-gray-300 hover:border-gray-500',
+        'border-blue-300/80 hover:border-blue-500',
+    ];
+    const borderTheme = borderThemes[index % borderThemes.length];
+
     return (
         <motion.div
-            className="group bg-white border border-gray-100 hover:border-balozy-gold/40 rounded-[2.5rem] p-10 shadow-sm hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer text-center h-full flex flex-col items-center relative overflow-hidden"
+            className={`group relative h-full overflow-hidden rounded-2xl border-2 ${borderTheme} bg-white p-6 text-left shadow-[0_14px_30px_-18px_rgba(0,0,0,0.28)] transition-all duration-300 hover:shadow-[0_22px_44px_-20px_rgba(0,0,0,0.32)]`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.05 }}
-            whileHover={{ y: -8 }}
+            transition={{ duration: 0.45, delay: index * 0.04 }}
+            whileHover={{ y: -4 }}
         >
-            {/* Subtle background glow on hover */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-balozy-gold/5 rounded-full blur-3xl -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="flex flex-col items-center flex-1 w-full relative z-10">
-                <div className="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-black transition-all duration-500 group-hover:rotate-[8deg] group-hover:shadow-xl group-hover:shadow-black/10">
-                    <Icon className="w-10 h-10 text-gray-900 group-hover:text-white transition-colors duration-500" />
+            <div className="relative z-10 flex h-full flex-col">
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-gray-100 bg-gray-50 transition-all duration-300 group-hover:border-yellow-200 group-hover:bg-yellow-500">
+                    <Icon className="h-6 w-6 text-gray-900 transition-colors duration-300 group-hover:text-white" />
                 </div>
 
-                <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight">{title}</h3>
-                <p className="text-sm text-gray-400 font-medium leading-relaxed mb-8 max-w-[220px] mx-auto">
-                    {description}
-                </p>
+                <h3 className="mb-2 text-lg font-extrabold tracking-tight text-gray-900">{title}</h3>
 
-                <div className="w-16 h-1 bg-balozy-gold/20 mb-10 transition-all duration-500 group-hover:w-24 group-hover:bg-balozy-gold/40"></div>
+                <p className="mb-5 text-sm leading-relaxed text-gray-600">{description}</p>
 
-                <div className="mt-auto">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-black inline-flex items-center gap-2 transition-all duration-300">
-                        Explore services <ArrowRight className="w-4 h-4 translate-x-0 group-hover:translate-x-2 transition-transform duration-300" />
-                    </span>
-                </div>
+                <div className="mb-5 h-px w-full bg-gray-200 transition-colors duration-300 group-hover:bg-yellow-400" />
+
+                <span className="mt-auto inline-flex items-center gap-1.5 text-xs font-medium text-[#0032FF]">
+                    Explore more services
+                    <ArrowRight className="h-3.5 w-3.5 translate-x-0 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
             </div>
         </motion.div>
     );
 }
+

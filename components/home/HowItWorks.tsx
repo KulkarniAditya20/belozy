@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Users, ShieldCheck, CheckCircle, Star, ArrowRight, Lock, MapPin, CreditCard, Sparkles } from 'lucide-react';
+import { Search, Users, ShieldCheck, CheckCircle, Star, ArrowRight } from 'lucide-react';
 
 const steps = [
     {
@@ -11,6 +11,8 @@ const steps = [
         step: '01',
         icon: Search,
         tag: 'Instant Match',
+        phoneLabel: 'SEARCH A SERVICE',
+        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80',
     },
     {
         title: 'Compare & Choose',
@@ -18,6 +20,8 @@ const steps = [
         step: '02',
         icon: Users,
         tag: 'Verified Pros',
+        phoneLabel: 'CHOOSE A PRO',
+        image: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=900&q=80',
     },
     {
         title: 'Book & Pay Securely',
@@ -25,6 +29,8 @@ const steps = [
         step: '03',
         icon: ShieldCheck,
         tag: 'Safe Payment',
+        phoneLabel: 'SECURE BOOKING',
+        image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80',
     },
     {
         title: 'Relax & Enjoy',
@@ -32,58 +38,88 @@ const steps = [
         step: '04',
         icon: CheckCircle,
         tag: 'Quality Guaranteed',
+        phoneLabel: 'PROJECT SUCCESS',
+        image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80',
     },
 ];
 
 export default function HowItWorks() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+    useEffect(() => {
+        const updateActiveStepFromScroll = () => {
+            if (typeof window === 'undefined') return;
+            const anchor = window.innerHeight * 0.4;
+            let nextIndex = 0;
+            let nearestDistance = Number.POSITIVE_INFINITY;
+
+            stepRefs.current.forEach((el, idx) => {
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                const marker = rect.top + rect.height * 0.35;
+                const distance = Math.abs(marker - anchor);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nextIndex = idx;
+                }
+            });
+
+            setActiveIndex((prev) => (prev === nextIndex ? prev : nextIndex));
+        };
+
+        updateActiveStepFromScroll();
+        window.addEventListener('scroll', updateActiveStepFromScroll, { passive: true });
+        window.addEventListener('resize', updateActiveStepFromScroll);
+
+        return () => {
+            window.removeEventListener('scroll', updateActiveStepFromScroll);
+            window.removeEventListener('resize', updateActiveStepFromScroll);
+        };
+    }, []);
 
     return (
-        <section id="how-it-works" className="relative bg-[#FAFAFA] pt-8 pb-20 lg:pt-12 lg:pb-32">
-            {/* Background Decorations */}
-            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-balozy-blue/[0.02] to-transparent pointer-events-none" />
-            <div className="absolute top-1/2 left-0 w-64 h-64 bg-balozy-gold/10 rounded-full blur-[120px] pointer-events-none opacity-50" />
-
+        <section id="how-it-works" className="relative bg-gradient-to-b from-white to-slate-50 pt-8 pb-14 lg:pt-10 lg:pb-20">
             <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-                <div className="flex flex-col lg:flex-row gap-20">
+                <div>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="relative z-20 mb-8 lg:mb-10"
+                >
+                    <h2 className="text-4xl lg:text-5xl font-black text-gray-900 leading-[1.05] tracking-tight">
+                        How Balozy <br />
+                        <span className="text-balozy-gold drop-shadow-sm">Works.</span>
+                    </h2>
+                    <p className="mt-4 text-sm sm:text-base text-gray-500 max-w-xl font-medium leading-relaxed">
+                        From search to hire, we make finding the right professional simple, transparent, and stress-free.
+                    </p>
+                </motion.div>
+                <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
 
-                    {/* Left Column: Sticky Title & Phone */}
+                    {/* Left Column: Sticky Phone */}
                     <div className="lg:w-5/12">
-                        <div className="lg:sticky lg:top-12 h-fit space-y-4">
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, ease: "easeOut" }}
-                            >
-                                <span className="inline-block py-1 px-3 bg-balozy-blue/10 text-balozy-blue text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
-                                    Our Process
-                                </span>
-                                <h2 className="text-5xl lg:text-6xl font-black text-gray-900 leading-[1.05] tracking-tight">
-                                    How Balozy <br />
-                                    <span className="text-balozy-gold drop-shadow-sm">Works.</span>
-                                </h2>
-                                <p className="mt-8 text-lg text-gray-500 max-w-sm font-medium leading-relaxed">
-                                    From search to hire, we make finding the right professional simple, transparent, and stress-free.
-                                </p>
-                            </motion.div>
-
-                            {/* Phone Mockup Section */}
-                            <div className="relative pt-2">
+                        {/* Phone Mockup Section */}
+                        <div className="relative mt-4 mb-6 pt-2 lg:mt-0 lg:mb-0 lg:pt-6 flex justify-center lg:justify-start lg:sticky lg:top-28">
                                 <motion.div
-                                    className="relative w-[280px] h-[580px] bg-[#0A0A0A] rounded-[3.5rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4),0_30px_60px_-30px_rgba(0,0,0,0.5)] border-[8px] border-[#1A1A1A] ring-1 ring-white/10"
+                                    className="relative w-[220px] h-[460px] sm:w-[248px] sm:h-[518px] rounded-[3rem] sm:rounded-[3.2rem] p-2.5 bg-gradient-to-b from-[#1A1A1A] to-[#080808] shadow-[0_40px_70px_-34px_rgba(0,0,0,0.5)] sm:shadow-[0_50px_100px_-34px_rgba(0,0,0,0.55)] ring-1 ring-black/20"
                                     initial={{ opacity: 0, scale: 0.9, rotateY: -5 }}
                                     whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 1.2, ease: "easeOut" }}
                                 >
+                                    <div className="absolute inset-[3px] rounded-[2.8rem] border border-white/10 pointer-events-none" />
+
                                     {/* Inner Screen Shadow and Glass Effect */}
-                                    <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative shadow-inner">
-                                        <div className="absolute inset-0 bg-gradient-to-tr from-gray-100/50 to-transparent pointer-events-none z-20" />
+                                    <div className="w-full h-full bg-white rounded-[2.6rem] overflow-hidden relative shadow-inner">
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-gray-100/40 to-transparent pointer-events-none z-20" />
+                                        <div className="absolute left-4 top-0 h-24 w-16 bg-white/35 blur-xl pointer-events-none z-20" />
 
                                         {/* Status Bar */}
-                                        <div className="absolute top-0 left-0 right-0 h-6 flex items-center justify-between px-8 z-30 bg-white/80 backdrop-blur-sm">
-                                            <span className="text-[10px] font-bold text-gray-900">9:41</span>
+                                        <div className="absolute top-0 left-0 right-0 h-7 flex items-center justify-between px-8 z-30 bg-white/75 backdrop-blur-md border-b border-gray-100/80">
+                                            <span className="text-[10px] font-bold text-gray-900 tracking-tight">9:41</span>
                                             <div className="flex gap-1.5 items-center">
                                                 <div className="w-3.5 h-1.5 bg-gray-900 rounded-full" />
                                                 <div className="w-1.5 h-1.5 bg-gray-900/30 rounded-full" />
@@ -100,276 +136,139 @@ export default function HowItWorks() {
                                                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                                 className="w-full h-full pt-10"
                                             >
-                                                {activeIndex === 0 && <SearchAppScreen />}
-                                                {activeIndex === 1 && <CompareAppScreen />}
-                                                {activeIndex === 2 && <PaymentAppScreen />}
-                                                {activeIndex === 3 && <SuccessAppScreen />}
+                                                <PhoneScreen step={steps[activeIndex]} />
                                             </motion.div>
                                         </AnimatePresence>
                                     </div>
 
                                     {/* Physical Detail: Notch */}
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#0A0A0A] rounded-b-[1.5rem] z-40 flex items-center justify-center gap-2">
-                                        <div className="w-8 h-1 bg-gray-800 rounded-full" />
-                                        <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
+                                    <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-40 flex items-center justify-center gap-2 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+                                        <div className="w-7 h-1 bg-gray-700 rounded-full" />
+                                        <div className="w-1.5 h-1.5 bg-gray-700 rounded-full" />
                                     </div>
                                 </motion.div>
-
-                                {/* Floating Label for Phone */}
-                                <motion.div
-                                    className="absolute -right-8 top-1/2 bg-white px-4 py-2 rounded-xl shadow-lg border border-gray-100 flex items-center gap-2 z-50"
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                >
-                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                    <span className="text-[10px] font-bold text-gray-900">Live Matching</span>
-                                </motion.div>
-                            </div>
                         </div>
                     </div>
 
                     {/* Right Column: Steps List */}
-                    <div className="lg:w-7/12 space-y-24 py-12 lg:py-32">
-                        {steps.map((step, idx) => (
-                            <motion.div
-                                key={idx}
-                                onViewportEnter={() => setActiveIndex(idx)}
-                                viewport={{ amount: 0.5, margin: "-20% 0px -40% 0px" }}
-                                className={`relative pl-16 lg:pl-24 group cursor-default transition-all duration-700 ${activeIndex === idx ? 'opacity-100 scale-100' : 'opacity-20 translate-x-4 scale-95'}`}
-                            >
-                                {/* Connector Line with Progress Animation */}
-                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-200/50 rounded-full overflow-hidden">
-                                    {activeIndex === idx && (
-                                        <motion.div
-                                            initial={{ height: 0 }}
-                                            animate={{ height: "100%" }}
-                                            transition={{ duration: 1, ease: "easeInOut" }}
-                                            className="w-full bg-balozy-blue shadow-[0_0_10px_rgba(0,50,255,0.5)]"
-                                        />
-                                    )}
-                                </div>
-
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4">
-                                        <span className={`text-[11px] font-black tracking-[0.2em] transition-colors duration-500 ${activeIndex === idx ? 'text-balozy-gold' : 'text-gray-300'}`}>
-                                            STEP {step.step}
-                                        </span>
-                                        <div className={`h-px w-10 transition-colors duration-500 ${activeIndex === idx ? 'bg-balozy-gold' : 'bg-gray-200'}`} />
-                                    </div>
-
-                                    <h3 className="text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
-                                        {step.title}
-                                    </h3>
-
-                                    <p className="text-xl text-gray-500 leading-relaxed font-medium max-w-lg">
-                                        {step.description}
-                                    </p>
-
-                                    {/* Action/Badge for active step */}
-                                    <motion.div
-                                        className="flex items-center gap-3 pt-4"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={activeIndex === idx ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                                    >
-                                        <div className="p-2.5 bg-balozy-blue/5 text-balozy-blue rounded-xl">
-                                            <step.icon className="w-5 h-5" />
-                                        </div>
-                                        <span className="text-xs font-bold text-balozy-blue uppercase tracking-wider">{step.tag}</span>
-                                    </motion.div>
-
-                                    {idx === steps.length - 1 && (
-                                        <motion.div
-                                            className="pt-12"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                        >
-                                            <button className="bg-balozy-blue text-white px-10 py-5 rounded-2xl font-black text-lg shadow-2xl shadow-balozy-blue/20 hover:scale-105 transition-transform flex items-center gap-3 group">
-                                                Find a Pro Now
-                                                <ArrowRight className="w-6 h-6 group-hover:translate-x-1.5 transition-transform" />
-                                            </button>
-                                        </motion.div>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
+                    <div className="lg:w-7/12 pt-2 lg:py-8">
+                        <div className="space-y-7 lg:space-y-9">
+                            {steps.map((step, idx) => (
+                                <motion.div
+                                    key={step.step}
+                                    ref={(el) => {
+                                        stepRefs.current[idx] = el;
+                                    }}
+                                    initial={{ opacity: 0, y: 72, scale: 0.98 }}
+                                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                    viewport={{ once: false, amount: 0.3, margin: "0px 0px -12% 0px" }}
+                                    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                                    className={`transition-all duration-500 ${
+                                        activeIndex === idx ? 'opacity-100' : 'opacity-70'
+                                    }`}
+                                >
+                                    <StepContent step={step} isLast={idx === steps.length - 1} />
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
 
+                </div>
                 </div>
             </div>
         </section>
     );
 }
 
-// PREMIUM APP SCREEN COMPONENTS
-
-function SearchAppScreen() {
+function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: boolean }) {
     return (
-        <div className="p-5 flex flex-col gap-6 h-full">
-            <div className="h-44 bg-[#F8F9FA] rounded-[2rem] relative overflow-hidden p-6 flex flex-col justify-end group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-balozy-gold/10 rounded-full blur-2xl -mr-10 -mt-10" />
-                <Sparkles className="absolute top-4 right-4 w-5 h-5 text-balozy-gold opacity-30" />
-
-                <h4 className="text-sm font-black text-gray-900 mb-4 tracking-tight leading-tight">What can we help you <br /> with today?</h4>
-
+        <div className="relative pl-10 lg:pl-12 min-h-[420px] lg:min-h-[500px]">
+            <div className="space-y-7">
                 <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="bg-white p-3.5 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 flex items-center gap-3"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="flex items-center gap-5"
                 >
-                    <Search className="w-4 h-4 text-balozy-blue" />
-                    <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold leading-none">SEARCHING FOR</span>
-                        <span className="text-xs text-gray-900 font-black">Plumbers near me</span>
-                    </div>
+                    <span className="text-[11px] font-extrabold tracking-[0.16em] text-balozy-gold">
+                        STEP {step.step}
+                    </span>
+                    <div className="h-px w-16 bg-balozy-gold/50" />
                 </motion.div>
-            </div>
 
-            <div className="space-y-3">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Popular Services</span>
-                <div className="grid grid-cols-2 gap-3">
-                    {['Landscaping', 'Cleaning', 'Electrical', 'Painting'].map((cat, i) => (
-                        <motion.div
-                            key={cat}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: i * 0.1 }}
-                            className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col gap-2 hover:border-balozy-blue/20 transition-colors"
-                        >
-                            <div className="w-7 h-7 bg-balozy-blue/5 rounded-lg flex items-center justify-center text-balozy-blue">
-                                <Search className="w-3.5 h-3.5" />
-                            </div>
-                            <span className="text-[10px] font-black text-gray-800">{cat}</span>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function CompareAppScreen() {
-    return (
-        <div className="p-5 flex flex-col gap-5 h-full">
-            <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-gray-900 tracking-tight">Top Rated Pros</span>
-                <div className="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-black rounded-full">8 AVAILABLE</div>
-            </div>
-
-            {[
-                { name: 'Marcus Steel', job: 'Master Electrician', rating: 5.0, img: 'https://i.pravatar.cc/150?u=m' },
-                { name: 'Elena Rivers', job: 'Interior Designer', rating: 4.9, img: 'https://i.pravatar.cc/150?u=e' },
-            ].map((pro, i) => (
-                <motion.div
-                    key={i}
-                    initial={{ x: 30, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.2 }}
-                    className="p-4 bg-white rounded-3xl border border-gray-100 shadow-lg shadow-gray-200/30 flex items-center gap-4 relative overflow-hidden"
+                <motion.h3
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.4, ease: 'easeOut', delay: 0.05 }}
+                    className="text-3xl sm:text-4xl lg:text-5xl font-black text-black tracking-tight leading-[0.98]"
                 >
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-balozy-blue/5 rounded-bl-full" />
-                    <img src={pro.img} className="w-12 h-12 rounded-2xl object-cover ring-2 ring-gray-50" alt="" />
-                    <div className="flex-1">
-                        <div className="text-[11px] font-black text-gray-900">{pro.name}</div>
-                        <div className="text-[9px] text-gray-400 font-bold mb-1.5 uppercase tracking-tighter">{pro.job}</div>
-                        <div className="flex items-center gap-1">
-                            <Star className="w-2.5 h-2.5 text-balozy-gold fill-balozy-gold" />
-                            <span className="text-[10px] text-gray-900 font-black">{pro.rating}</span>
+                    {step.title}
+                </motion.h3>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
+                    className="text-base sm:text-lg text-gray-500 leading-relaxed font-medium max-w-xl"
+                >
+                    {step.description}
+                </motion.p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.4, ease: 'easeOut', delay: 0.12 }}
+                    className="relative pt-2"
+                >
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-[#F7F2E4] border border-[#E9D69A] flex items-center justify-center shadow-[0_8px_18px_-14px_rgba(234,179,8,0.75)]">
+                            <step.icon className="w-5 h-5 text-balozy-gold" />
+                        </div>
+                        <div>
+                            <div className="text-xs tracking-[0.14em] text-gray-700 font-semibold uppercase">INSTANT MATCH</div>
+                            <div className="text-sm text-gray-400">Verified Professionals</div>
                         </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-balozy-blue" />
+                    {!isLast && <div className="absolute left-6 top-14 h-12 w-px bg-[#E7DFCA]" />}
                 </motion.div>
-            ))}
 
-            <div className="mt-auto p-4 bg-balozy-blue text-white rounded-2xl shadow-xl shadow-balozy-blue/20 flex items-center justify-between">
-                <div className="text-[10px] font-black uppercase">Start Chat</div>
-                <Users className="w-4 h-4 text-white/50" />
+                <div className="pt-7 h-[76px]">
+                    {isLast ? (
+                        <button className="bg-balozy-blue text-white px-7 py-3.5 rounded-xl font-black text-base shadow-xl shadow-balozy-blue/20 hover:scale-105 transition-transform flex items-center gap-2.5 group">
+                            Find a Pro Now
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+                        </button>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
 }
 
-function PaymentAppScreen() {
+function PhoneScreen({ step }: { step: (typeof steps)[number] }) {
     return (
-        <div className="p-5 flex flex-col gap-6 h-full">
-            <h4 className="text-sm font-black text-gray-900 tracking-tight">Secure Checkout</h4>
-
-            <motion.div
-                initial={{ rotateX: 20, y: 20, opacity: 0 }}
-                animate={{ rotateX: 0, y: 0, opacity: 1 }}
-                className="w-full h-44 bg-gradient-to-br from-gray-900 to-gray-800 rounded-[2rem] p-6 text-white relative flex flex-col justify-between shadow-2xl shadow-black/20"
-            >
-                <div className="flex justify-between items-start">
-                    <CreditCard className="w-8 h-8 text-balozy-gold" />
-                    <Lock className="w-4 h-4 text-white/30" />
-                </div>
-                <div>
-                    <div className="text-[9px] font-bold text-white/40 mb-1 uppercase tracking-widest">Premium Member</div>
-                    <div className="text-sm font-black tracking-[0.2em] mb-4 text-white/90">**** **** **** 4892</div>
-                    <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black">ADITYA KULKARNI</span>
-                        <div className="flex gap-1">
-                            <div className="w-4 h-4 bg-white/20 rounded-full" />
-                            <div className="w-4 h-4 bg-white/10 rounded-full" />
-                        </div>
-                    </div>
-                </div>
-            </motion.div>
-
-            <div className="space-y-3 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                <div className="flex justify-between items-center text-[10px] font-bold">
-                    <span className="text-gray-400 uppercase">Service Fee</span>
-                    <span className="text-gray-900">$120.00</span>
-                </div>
-                <div className="h-px bg-gray-200/50" />
-                <div className="flex justify-between items-center text-xs font-black">
-                    <span className="text-gray-900">Total</span>
-                    <span className="text-balozy-blue">$120.00</span>
-                </div>
+        <div className="relative h-full w-full overflow-hidden">
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${step.image})` }}
+            />
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[86%] h-9 flex items-center px-3 gap-2 bg-white/95">
+                <Search className="w-4 h-4 text-balozy-gold" />
+                <div className="h-1.5 w-24 bg-gray-200" />
             </div>
-
-            <button className="w-full bg-emerald-500 text-white py-4 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/20">
-                <ShieldCheck className="w-4 h-4" />
-                <span className="text-[11px] font-black uppercase">Pay Securely</span>
-            </button>
-        </div>
-    );
-}
-
-function SuccessAppScreen() {
-    return (
-        <div className="p-5 flex flex-col items-center justify-center h-full gap-8">
-            <div className="relative">
-                <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", damping: 10, stiffness: 100 }}
-                    className="w-28 h-28 bg-emerald-500 rounded-full flex items-center justify-center text-white relative z-10 shadow-2xl shadow-emerald-500/40 border-[6px] border-white"
-                >
-                    <CheckCircle className="w-12 h-12" />
-                </motion.div>
-                <motion.div
-                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute inset-0 bg-emerald-500 rounded-full blur-xl"
-                />
-            </div>
-
-            <div className="text-center space-y-2">
-                <h4 className="text-xl font-black text-gray-900 tracking-tight">Job Completed!</h4>
-                <p className="text-[10px] text-gray-400 font-medium px-4">Your space has been transformed. Your payment has been released to Marcus Steel.</p>
-            </div>
-
-            <div className="w-full bg-white p-5 rounded-[2rem] border border-gray-100 shadow-xl shadow-gray-100/50 flex flex-col items-center gap-4">
-                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest text-center">Rate Marcus Steel</span>
-                <div className="flex gap-2.5">
-                    {[1, 2, 3, 4, 5].map(i => (
-                        <Star key={i} className="w-6 h-6 text-balozy-gold fill-balozy-gold" />
+            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/80 via-black/45 to-transparent p-4 flex flex-col justify-end">
+                <span className="text-[11px] font-black tracking-[0.18em] text-balozy-gold uppercase">Step {step.step}</span>
+                <h4 className="text-white text-3xl font-black leading-tight mt-1 uppercase">{step.phoneLabel}</h4>
+                <div className="mt-2 flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <Star key={i} className="w-3.5 h-3.5 text-balozy-gold fill-balozy-gold" />
                     ))}
                 </div>
-                <button className="w-full h-11 border-2 border-balozy-blue text-balozy-blue rounded-xl text-[10px] font-black uppercase hover:bg-balozy-blue hover:text-white transition-all">
-                    Submit Review
-                </button>
+                <div className="mt-3 h-1 bg-balozy-gold" />
             </div>
         </div>
     );

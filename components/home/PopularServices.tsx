@@ -27,49 +27,55 @@ const services = [
 
 export default function PopularServices() {
     return (
-        <section className="py-24 bg-gray-50/50">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="relative py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50/70 overflow-hidden">
+            <div className="pointer-events-none absolute -bottom-20 right-0 h-56 w-56 rounded-full bg-blue-200/30 blur-3xl" />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
 
                 {/* Section Header */}
-                <div className="flex flex-col md:flex-row items-end justify-between gap-8 mb-16">
-                    <div className="max-w-xl space-y-4">
-                        <motion.span
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="text-[10px] font-black uppercase tracking-[0.2em] text-balozy-gold"
-                        >
-                            Our Expertise
-                        </motion.span>
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-14">
+                    <div className="max-w-2xl">
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"
+                            transition={{ delay: 0.08 }}
+                            className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"
                         >
-                            Premium services for <br />
-                            <span className="text-gray-400">every home need.</span>
+                            Popular services
                         </motion.h2>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.14 }}
+                            className="mt-3 text-sm sm:text-base text-gray-600 max-w-xl"
+                        >
+                            Browse trusted, high-demand categories used most by homeowners.
+                        </motion.p>
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, x: 12 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.3 }}
+                        transition={{ delay: 0.2 }}
                     >
-                        <a href="/services_data" className="inline-flex items-center gap-2 group text-sm font-bold text-gray-900">
-                            Explore all 50+ services
-                            <div className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
-                                <Hammer className="w-3.5 h-3.5 group-hover:rotate-12" />
-                            </div>
+                        <a
+                            href="/services_data"
+                            className="group inline-flex items-center gap-2 rounded-full border border-yellow-300 bg-yellow-50 pl-2.5 pr-2.5 py-2 text-base font-medium text-yellow-700 shadow-[0_10px_24px_-14px_rgba(234,179,8,0.55)] transition-all hover:-translate-y-0.5 hover:border-yellow-400 hover:bg-yellow-100 hover:shadow-[0_14px_28px_-14px_rgba(234,179,8,0.65)]"
+                        >
+                            <span>Explore all 50+ services</span>
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-900 transition-all duration-300 group-hover:bg-black group-hover:text-white">
+                                <Hammer className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-12" />
+                            </span>
                         </a>
                     </motion.div>
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
                     {services.map((service, idx) => (
                         <ServiceCard
                             key={idx}
