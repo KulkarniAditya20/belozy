@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowRight, Lock, Mail } from 'lucide-react';
 
 type Role = 'customer' | 'pro';
 
-export default function LoginPage() {
+function LoginPageContent() {
     const searchParams = useSearchParams();
     const roleFromQuery = searchParams.get('role');
     const initialRole: Role = roleFromQuery === 'pro' ? 'pro' : 'customer';
@@ -103,5 +103,13 @@ export default function LoginPage() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={null}>
+            <LoginPageContent />
+        </Suspense>
     );
 }
