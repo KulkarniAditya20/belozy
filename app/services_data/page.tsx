@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/home/Navbar';
 import Footer from '@/components/home/Footer';
-import { Search } from 'lucide-react';
+import { Search, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import PopularSearchBar from '@/components/ui/PopularSearchBar';
 
 const CATEGORIES = [
     { name: 'Architects', image: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80&w=400&h=300' },
@@ -40,8 +41,22 @@ const CATEGORIES = [
     { name: 'TV Mounting Services', image: 'https://images.unsplash.com/photo-1593359674240-a5a74d31090c?auto=format&fit=crop&q=80&w=400&h=300' },
 ];
 
+const CATEGORY_META: Record<string, { insight: string; response: string; price: string }> = {
+    Architects: { insight: 'Planning, permits and design support', response: '2-4 hrs', price: 'From $120' },
+    Baking: { insight: 'Custom cakes and event baking experts', response: '1-3 hrs', price: 'From $35' },
+    Carpenter: { insight: 'Furniture fixes and woodwork projects', response: '30-90 min', price: 'From $60' },
+    Electricians: { insight: 'Wiring, fixtures and safety checks', response: '20-60 min', price: 'From $55' },
+    Handyman: { insight: 'Small repairs done in one visit', response: '20-60 min', price: 'From $45' },
+    Plumber: { insight: 'Leak repair, fittings and installations', response: '15-45 min', price: 'From $50' },
+    Landscaping: { insight: 'Outdoor care and garden upgrades', response: '1-2 hrs', price: 'From $80' },
+    Photographer: { insight: 'Events, portraits and product shoots', response: '1-3 hrs', price: 'From $90' },
+    'Makeup & Beauty': { insight: 'Bridal and professional styling', response: '1-2 hrs', price: 'From $40' },
+    'Interior Design': { insight: 'Space planning and decor curation', response: '2-5 hrs', price: 'From $140' },
+};
+
 export default function ServicesPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const [locationQuery, setLocationQuery] = useState('');
 
     const filteredCategories = CATEGORIES.filter(cat =>
         cat.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -63,47 +78,51 @@ export default function ServicesPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAFAFA]">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
             <Navbar />
 
-            <main className="pt-28 pb-32">
+            <main className="pt-28 pb-24">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     
                     {/* Hero / Search Section */}
-                    <div className="max-w-3xl mx-auto text-center mb-16 space-y-8">
+                    <div
+                        data-navbar-search-anchor="true"
+                        className="max-w-4xl mx-auto text-center mb-14 space-y-6"
+                    >
+                        <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5">
+                            <span className="h-2 w-2 rounded-full bg-[#F8B90C]" />
+                            <span className="text-[11px] tracking-[0.14em] uppercase font-semibold text-amber-700">Popular services</span>
+                        </div>
                         <motion.h1 
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"
+                            className="text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.03]"
                         >
-                            What services are you <br />
-                            <span className="text-[#0032FF]">looking for today?</span>
+                            Discover trusted local pros <br />
+                            <span className="text-[#F8B90C]">for every home need.</span>
                         </motion.h1>
+                        <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
+                            Browse visual categories and quickly find the right service.
+                        </p>
 
-                        <div className="relative group max-w-2xl mx-auto">
-                            <div className="absolute inset-0 bg-[#0032FF]/5 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
-                            <div className="relative flex items-center bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-200/40 p-1.5 focus-within:ring-2 focus-within:ring-[#0032FF]/20 transition-all">
-                                <Search className="ml-4 w-5 h-5 text-gray-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Search categories..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="flex-1 px-4 py-3 bg-transparent border-none focus:ring-0 text-lg font-medium text-gray-800 placeholder:text-gray-400 placeholder:font-normal"
-                                />
-                                <button className="bg-[#0032FF] text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
+                        <PopularSearchBar
+                            className="max-w-5xl mx-auto"
+                            serviceValue={searchQuery}
+                            onServiceChange={setSearchQuery}
+                            locationValue={locationQuery}
+                            onLocationChange={setLocationQuery}
+                            servicePlaceholder="Search categories..."
+                            locationPlaceholder="San Francisco, CA"
+                            searchLabel="Search"
+                        />
                     </div>
 
-                    <div className="flex items-center justify-between mb-12 border-b border-gray-100 pb-6">
+                    <div className="flex items-center justify-between mb-10 border-b border-gray-200/80 pb-5">
                         <div>
                             <h2 className="text-2xl font-black text-gray-900">Browse by category</h2>
-                            <p className="text-gray-500 font-medium mt-1">Explore our professional service network</p>
+                            <p className="text-gray-500 mt-1">Explore our professional service network</p>
                         </div>
-                        <span className="bg-gray-100 text-gray-600 px-4 py-1.5 rounded-full text-sm font-bold">
+                        <span className="bg-white border border-gray-200 text-gray-700 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">
                             {filteredCategories.length} Categories
                         </span>
                     </div>
@@ -113,43 +132,61 @@ export default function ServicesPage() {
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"
                     >
-                        {filteredCategories.map((cat) => (
-                            <motion.a
-                                key={cat.name}
-                                variants={cardVariants}
-                                href={`/services_data/${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-                                className="group block"
-                            >
-                                <div className="space-y-4">
-                                    <div className="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gray-200 shadow-sm transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-blue-500/10 group-hover:-translate-y-2">
+                        {filteredCategories.map((cat) => {
+                            const meta = CATEGORY_META[cat.name] || {
+                                insight: 'Trusted local professionals available',
+                                response: '30-120 min',
+                                price: 'From $49'
+                            };
+
+                            return (
+                                <motion.a
+                                    key={cat.name}
+                                    variants={cardVariants}
+                                    href={`/services_data/${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                    className="group block rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-[0_20px_42px_-26px_rgba(0,0,0,0.28)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[#F8B90C]/70 hover:shadow-[0_26px_52px_-24px_rgba(0,50,255,0.26)]"
+                                >
+                                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-200">
                                         <Image
                                             src={cat.image}
                                             alt={cat.name}
                                             fill
-                                            className="object-cover transition-transform duration-700 scale-100 group-hover:scale-110"
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
                                             unoptimized
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                        
-                                        {/* Subtle overlay elements */}
-                                        <div className="absolute bottom-4 left-4 p-2 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                                            <span className="text-[10px] uppercase font-black tracking-widest text-white">View Pros</span>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                                        <div className="absolute top-4 left-4 rounded-full bg-white/92 backdrop-blur px-3 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-[#0032FF]">
+                                            Popular
+                                        </div>
+                                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                                            <span className="text-white text-[11px] font-medium bg-black/35 rounded-full px-3 py-1">
+                                                Avg response {meta.response}
+                                            </span>
+                                            <div className="h-9 w-9 rounded-full bg-white text-[#0032FF] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:translate-x-0.5">
+                                                <ChevronRight className="w-4 h-4" />
+                                            </div>
                                         </div>
                                     </div>
-                                    
-                                    <div className="px-1 flex items-center justify-between">
-                                        <h3 className="text-lg font-black text-gray-900 group-hover:text-[#0032FF] transition-colors duration-300">
+
+                                    <div className="p-5">
+                                        <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-[#0032FF] transition-colors">
                                             {cat.name}
                                         </h3>
-                                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 group-hover:bg-[#0032FF]/5">
-                                            <Search className="w-3 h-3 text-[#0032FF]" />
+                                        <p className="mt-2 text-sm text-gray-500 leading-relaxed">
+                                            {meta.insight}
+                                        </p>
+                                        <div className="mt-4 flex items-center justify-between">
+                                            <span className="inline-flex items-center rounded-full border border-[#F8B90C]/45 bg-[#F8B90C]/12 px-3 py-1 text-xs font-medium text-amber-700">
+                                                {meta.price}
+                                            </span>
+                                            <span className="text-xs font-medium text-gray-500">Top rated pros</span>
                                         </div>
                                     </div>
-                                </div>
-                            </motion.a>
-                        ))}
+                                </motion.a>
+                            );
+                        })}
                     </motion.div>
 
                     {filteredCategories.length === 0 && (
@@ -165,7 +202,7 @@ export default function ServicesPage() {
                             <p className="text-gray-500 max-w-xs mx-auto">We couldn't find any categories matching "{searchQuery}". Try a different search term.</p>
                             <button 
                                 onClick={() => setSearchQuery('')}
-                                className="text-[#0032FF] font-black hover:underline mt-4"
+                                className="text-[#0032FF] font-semibold hover:underline mt-4"
                             >
                                 Clear search
                             </button>

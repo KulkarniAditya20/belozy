@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Outfit } from 'next/font/google';
-import { Search, MapPin, Star, Shield, Clock, ChevronRight } from 'lucide-react';
+import { Star, Shield, Clock } from 'lucide-react';
+import PopularSearchBar from '@/components/ui/PopularSearchBar';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -14,7 +15,8 @@ const WORDS = ['Luxury', 'Peace', 'Quality', 'Comfort', 'Speed'];
 
 export default function HeroSection() {
   const [index, setIndex] = useState(0);
-  const [isFocused, setIsFocused] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,7 +28,9 @@ export default function HeroSection() {
 
   return (
     <section
-      className={`relative min-h-[72vh] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-[#FFFFFF] ${outfit.className}`}
+      id="hero-section"
+      data-hero-section="true"
+      className={`relative min-h-[84vh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-[#FFFFFF] ${outfit.className}`}
     >
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 text-center">
 
@@ -88,63 +92,16 @@ export default function HeroSection() {
           transition={{ delay: 0.3 }}
           className="relative max-w-5xl mx-auto mb-12"
         >
-          <div
-            className="relative bg-[#FCFCFD] rounded-2xl border border-gray-200 transition-all duration-500 p-1.5 flex flex-col md:flex-row items-stretch gap-1.5 shadow-[0_18px_36px_-16px_rgba(0,0,0,0.16)] hover:shadow-[0_22px_44px_-16px_rgba(0,0,0,0.22)]"
-          >
-            {/* Service Input */}
-            <div
-              className={`flex-[1.4] flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
-                isFocused === 'service' ? 'bg-black/[0.03]' : ''
-              }`}
-            >
-              <Search
-                className="w-5 h-5 text-yellow-500 transition-colors"
-              />
-              <input
-                type="text"
-                placeholder="What service do you need?"
-                onFocus={() => setIsFocused('service')}
-                onBlur={() => setIsFocused('')}
-                className="w-full bg-transparent outline-none text-gray-900 text-sm sm:text-base font-normal placeholder:text-gray-400"
-              />
-            </div>
-
-            <div className="hidden md:flex items-center justify-center px-1">
-              <div className="relative h-10 w-px bg-gradient-to-b from-transparent via-gray-300/80 to-transparent">
-                <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-300/90" />
-              </div>
-            </div>
-
-            {/* Location Input */}
-            <div
-              className={`flex-1 flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
-                isFocused === 'location' ? 'bg-black/[0.03]' : ''
-              }`}
-            >
-              <MapPin
-                className="w-5 h-5 text-yellow-500 transition-colors"
-              />
-              <input
-                type="text"
-                placeholder="San Francisco, CA"
-                onFocus={() => setIsFocused('location')}
-                onBlur={() => setIsFocused('')}
-                className="w-full bg-transparent outline-none text-gray-900 text-sm sm:text-base font-normal placeholder:text-gray-400"
-              />
-            </div>
-
-            <div className="hidden md:flex items-center justify-center px-1">
-              <div className="relative h-10 w-px bg-gradient-to-b from-transparent via-gray-300/80 to-transparent">
-                <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-300/90" />
-              </div>
-            </div>
-
-            {/* Button */}
-            <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-2.5 font-bold text-sm sm:text-base transition-all active:scale-95 flex items-center justify-center gap-2 group shadow-[0_12px_24px_rgba(0,0,0,0.2)]">
-              Search
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
+          <PopularSearchBar
+            serviceValue={searchQuery}
+            onServiceChange={setSearchQuery}
+            locationValue={locationQuery}
+            onLocationChange={setLocationQuery}
+            servicePlaceholder="What service do you need?"
+            locationPlaceholder="San Francisco, CA"
+            searchLabel="Search"
+            searchHref="/services_data"
+          />
         </motion.div>
 
         {/* Features */}

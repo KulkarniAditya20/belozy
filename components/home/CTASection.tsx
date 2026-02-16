@@ -49,14 +49,14 @@ export default function CTASection() {
                             </motion.p>
 
                             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
-                                <button className="bg-balozy-gold hover:bg-[#FFCC40] text-black px-7 py-3.5 rounded-xl font-black text-base shadow-[0_16px_34px_-16px_rgba(248,185,12,0.65)] transition-all flex items-center justify-center gap-2.5 group">
+                                <a href="/get-started" className="bg-balozy-gold hover:bg-[#FFCC40] text-black px-7 py-3.5 rounded-xl font-normal text-sm lg:text-base shadow-[0_16px_34px_-16px_rgba(248,185,12,0.65)] transition-all flex items-center justify-center gap-2.5 group">
                                     Get Started Now
                                     <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                                <button className="border border-white/15 hover:bg-white/5 text-white px-7 py-3.5 rounded-xl font-black text-base transition-all flex items-center justify-center gap-2.5">
+                                </a>
+                                <a href="/get-started?role=pro" className="border border-white/15 hover:bg-white/5 text-white px-7 py-3.5 rounded-xl font-black text-base transition-all flex items-center justify-center gap-2.5">
                                     Become a Pro
                                     <Briefcase className="w-4.5 h-4.5 opacity-70" />
-                                </button>
+                                </a>
                             </div>
 
                             <div className="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-sm text-white/90">

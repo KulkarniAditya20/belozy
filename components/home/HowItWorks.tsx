@@ -238,9 +238,9 @@ function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: b
 
                 <div className="pt-7 h-[76px]">
                     {isLast ? (
-                        <button className="bg-balozy-blue text-white px-7 py-3.5 rounded-xl font-black text-base shadow-xl shadow-balozy-blue/20 hover:scale-105 transition-transform flex items-center gap-2.5 group">
+                        <button className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black px-5 py-2.5 rounded-lg text-sm lg:text-base font-normal transition-colors whitespace-nowrap inline-flex items-center gap-1.5">
                             Find a Pro Now
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </button>
                     ) : null}
                 </div>
