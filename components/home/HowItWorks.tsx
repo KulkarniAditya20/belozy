@@ -100,7 +100,7 @@ export default function HowItWorks() {
                 <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
 
                     {/* Left Column: Sticky Phone */}
-                    <div className="lg:w-5/12">
+                    <div className="hidden lg:block lg:w-5/12">
                         {/* Phone Mockup Section */}
                         <div className="relative mt-4 mb-6 pt-2 lg:mt-0 lg:mb-0 lg:pt-6 flex justify-center lg:justify-start lg:sticky lg:top-28">
                                 <motion.div
@@ -164,7 +164,7 @@ export default function HowItWorks() {
                                     viewport={{ once: false, amount: 0.3, margin: "0px 0px -12% 0px" }}
                                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                                     className={`transition-all duration-500 ${
-                                        activeIndex === idx ? 'opacity-100' : 'opacity-70'
+                                        activeIndex === idx ? 'opacity-100 lg:opacity-100' : 'opacity-100 lg:opacity-70'
                                     }`}
                                 >
                                     <StepContent step={step} isLast={idx === steps.length - 1} />
@@ -182,19 +182,19 @@ export default function HowItWorks() {
 
 function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: boolean }) {
     return (
-        <div className="relative pl-10 lg:pl-12 min-h-[420px] lg:min-h-[500px]">
-            <div className="space-y-7">
+        <div className="relative pl-8 lg:pl-12 min-h-[280px] lg:min-h-[500px]">
+            <div className="space-y-5 lg:space-y-7">
                 <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="flex items-center gap-5"
+                    className="flex items-center gap-4 lg:gap-5"
                 >
                     <span className="text-[11px] font-extrabold tracking-[0.16em] text-balozy-gold">
                         STEP {step.step}
                     </span>
-                    <div className="h-px w-16 bg-balozy-gold/50" />
+                    <div className="h-px w-12 lg:w-16 bg-balozy-gold/50" />
                 </motion.div>
 
                 <motion.h3
@@ -202,7 +202,7 @@ function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: b
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.4, ease: 'easeOut', delay: 0.05 }}
-                    className="text-3xl sm:text-4xl lg:text-5xl font-black text-black tracking-tight leading-[0.98]"
+                    className="text-[28px] sm:text-4xl lg:text-5xl font-black text-black tracking-tight leading-[1.02] lg:leading-[0.98]"
                 >
                     {step.title}
                 </motion.h3>
@@ -222,9 +222,9 @@ function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: b
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.4, ease: 'easeOut', delay: 0.12 }}
-                    className="relative pt-2"
+                    className="relative pt-1.5 lg:pt-2"
                 >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3.5 lg:gap-4">
                         <div className="w-12 h-12 rounded-xl bg-[#F7F2E4] border border-[#E9D69A] flex items-center justify-center shadow-[0_8px_18px_-14px_rgba(234,179,8,0.75)]">
                             <step.icon className="w-5 h-5 text-balozy-gold" />
                         </div>
@@ -233,10 +233,10 @@ function StepContent({ step, isLast }: { step: (typeof steps)[number]; isLast: b
                             <div className="text-sm text-gray-400">Verified Professionals</div>
                         </div>
                     </div>
-                    {!isLast && <div className="absolute left-6 top-14 h-12 w-px bg-[#E7DFCA]" />}
+                    {!isLast && <div className="absolute left-6 top-14 h-8 lg:h-12 w-px bg-[#E7DFCA]" />}
                 </motion.div>
 
-                <div className="pt-7 h-[76px]">
+                <div className="pt-4 lg:pt-7 h-[56px] lg:h-[76px]">
                     {isLast ? (
                         <button className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black px-5 py-2.5 rounded-lg text-sm lg:text-base font-normal transition-colors whitespace-nowrap inline-flex items-center gap-1.5">
                             Find a Pro Now

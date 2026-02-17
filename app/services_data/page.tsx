@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '@/components/home/Navbar';
 import Footer from '@/components/home/Footer';
 import { Search, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import PopularSearchBar from '@/components/ui/PopularSearchBar';
+import dynamic from 'next/dynamic';
+
+const Navbar = dynamic(() => import('@/components/home/Navbar'), { ssr: false });
 
 const CATEGORIES = [
     { name: 'Architects', image: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80&w=400&h=300' },
@@ -82,7 +84,7 @@ export default function ServicesPage() {
             <Navbar />
 
             <main className="pt-28 pb-24">
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     
                     {/* Hero / Search Section */}
                     <div
@@ -117,12 +119,12 @@ export default function ServicesPage() {
                         />
                     </div>
 
-                    <div className="flex items-center justify-between mb-10 border-b border-gray-200/80 pb-5">
+                    <div className="mb-8 sm:mb-10 border-b border-gray-200/80 pb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 className="text-2xl font-black text-gray-900">Browse by category</h2>
-                            <p className="text-gray-500 mt-1">Explore our professional service network</p>
+                            <h2 className="text-xl sm:text-2xl font-black text-gray-900">Browse by category</h2>
+                            <p className="text-sm sm:text-base text-gray-500 mt-1">Explore our professional service network</p>
                         </div>
-                        <span className="bg-white border border-gray-200 text-gray-700 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">
+                        <span className="self-start sm:self-auto bg-white border border-gray-200 text-gray-700 px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
                             {filteredCategories.length} Categories
                         </span>
                     </div>
@@ -132,7 +134,7 @@ export default function ServicesPage() {
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"
+                        className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-7"
                     >
                         {filteredCategories.map((cat) => {
                             const meta = CATEGORY_META[cat.name] || {
@@ -146,9 +148,9 @@ export default function ServicesPage() {
                                     key={cat.name}
                                     variants={cardVariants}
                                     href={`/services_data/${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-                                    className="group block rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-[0_20px_42px_-26px_rgba(0,0,0,0.28)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[#F8B90C]/70 hover:shadow-[0_26px_52px_-24px_rgba(0,50,255,0.26)]"
+                                    className="group block rounded-2xl sm:rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-[0_16px_30px_-22px_rgba(0,0,0,0.28)] sm:shadow-[0_20px_42px_-26px_rgba(0,0,0,0.28)] transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-1.5 hover:border-[#F8B90C]/70 hover:shadow-[0_26px_52px_-24px_rgba(0,50,255,0.26)]"
                                 >
-                                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-200">
+                                    <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden bg-gray-200">
                                         <Image
                                             src={cat.image}
                                             alt={cat.name}
@@ -157,31 +159,31 @@ export default function ServicesPage() {
                                             unoptimized
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                                        <div className="absolute top-4 left-4 rounded-full bg-white/92 backdrop-blur px-3 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-[#0032FF]">
+                                        <div className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 rounded-full bg-white/92 backdrop-blur px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] uppercase text-[#0032FF]">
                                             Popular
                                         </div>
-                                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                            <span className="text-white text-[11px] font-medium bg-black/35 rounded-full px-3 py-1">
+                                        <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-between">
+                                            <span className="hidden sm:inline-flex text-white text-[11px] font-medium bg-black/35 rounded-full px-3 py-1">
                                                 Avg response {meta.response}
                                             </span>
-                                            <div className="h-9 w-9 rounded-full bg-white text-[#0032FF] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:translate-x-0.5">
-                                                <ChevronRight className="w-4 h-4" />
+                                            <div className="h-7 w-7 sm:h-9 sm:w-9 rounded-full bg-white text-[#0032FF] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:translate-x-0.5">
+                                                <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="p-5">
-                                        <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-[#0032FF] transition-colors">
+                                    <div className="p-3.5 sm:p-5">
+                                        <h3 className="text-sm sm:text-xl font-extrabold text-gray-900 group-hover:text-[#0032FF] transition-colors leading-tight">
                                             {cat.name}
                                         </h3>
-                                        <p className="mt-2 text-sm text-gray-500 leading-relaxed">
+                                        <p className="mt-1.5 sm:mt-2 text-[12px] sm:text-sm text-gray-500 leading-snug sm:leading-relaxed">
                                             {meta.insight}
                                         </p>
-                                        <div className="mt-4 flex items-center justify-between">
-                                            <span className="inline-flex items-center rounded-full border border-[#F8B90C]/45 bg-[#F8B90C]/12 px-3 py-1 text-xs font-medium text-amber-700">
+                                        <div className="mt-3 sm:mt-4 flex items-center justify-between">
+                                            <span className="inline-flex items-center rounded-full border border-[#F8B90C]/45 bg-[#F8B90C]/12 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-medium text-amber-700">
                                                 {meta.price}
                                             </span>
-                                            <span className="text-xs font-medium text-gray-500">Top rated pros</span>
+                                            <span className="hidden sm:inline text-xs font-medium text-gray-500">Top rated pros</span>
                                         </div>
                                     </div>
                                 </motion.a>

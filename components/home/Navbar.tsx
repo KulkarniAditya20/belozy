@@ -112,41 +112,59 @@ export default function Navbar() {
                             <ChevronDown className="w-4 h-4 text-gray-400 transition-transform group-hover:rotate-180" />
                         </div>
                     </div>
-
-                    {showHeroSearchInNavbar ? (
-                        <div className="hidden md:flex flex-1 max-w-4xl">
-                            <div className="w-full bg-[#FCFCFD] rounded-xl border border-gray-200 p-1.5 flex items-center gap-1.5 shadow-[0_12px_24px_-16px_rgba(0,0,0,0.2)]">
-                                <div className="flex-[1.4] flex items-center gap-2.5 px-3 py-2 rounded-lg">
-                                    <Search className="w-4 h-4 text-yellow-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="What service do you need?"
-                                        className="w-full bg-transparent outline-none text-sm text-gray-900 font-normal placeholder:text-gray-400"
-                                    />
-                                </div>
-                                <div className="h-7 w-px bg-gray-200" />
-                                <div className="flex-1 flex items-center gap-2.5 px-3 py-2 rounded-lg">
-                                    <MapPin className="w-4 h-4 text-yellow-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="San Francisco, CA"
-                                        className="w-full bg-transparent outline-none text-sm text-gray-900 font-normal placeholder:text-gray-400"
-                                    />
-                                </div>
-                                <div className="h-7 w-px bg-gray-200" />
-                                <a
-                                    href="/services_data"
-                                    className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black rounded-lg px-4 py-2 font-normal text-sm transition-colors flex items-center justify-center gap-1.5"
-                                >
-                                    Search
-                                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                </a>
-                            </div>
+                    <div className="flex items-center gap-2 sm:gap-3 md:gap-6 lg:gap-8 shrink-0">
+                        <div className="md:hidden flex items-center gap-2 sm:gap-3">
+                            <a
+                                href="/services_data"
+                                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-blue-200 hover:text-[#0032FF] transition-colors"
+                                aria-label="Search services"
+                            >
+                                <Search className="h-4 w-4" />
+                            </a>
+                            <a href="/login" className="text-xs sm:text-sm font-medium text-gray-600 hover:text-[#0032FF] transition-colors whitespace-nowrap">
+                                Sign In
+                            </a>
+                            <a
+                                href="/get-started"
+                                className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm font-normal transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
+                            >
+                                Get Started
+                                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </a>
                         </div>
-                    ) : (
-                        <div className="flex items-center gap-6 lg:gap-8">
+                        {showHeroSearchInNavbar ? (
+                            <div className="hidden md:flex flex-1 max-w-4xl">
+                                <div className="w-full bg-[#FCFCFD] rounded-xl border border-gray-200 p-1.5 flex items-center gap-1.5 shadow-[0_12px_24px_-16px_rgba(0,0,0,0.2)]">
+                                    <div className="flex-[1.4] flex items-center gap-2.5 px-3 py-2 rounded-lg">
+                                        <Search className="w-4 h-4 text-yellow-500" />
+                                        <input
+                                            type="text"
+                                            placeholder="What service do you need?"
+                                            className="w-full bg-transparent outline-none text-sm text-gray-900 font-normal placeholder:text-gray-400"
+                                        />
+                                    </div>
+                                    <div className="h-7 w-px bg-gray-200" />
+                                    <div className="flex-1 flex items-center gap-2.5 px-3 py-2 rounded-lg">
+                                        <MapPin className="w-4 h-4 text-yellow-500" />
+                                        <input
+                                            type="text"
+                                            placeholder="San Francisco, CA"
+                                            className="w-full bg-transparent outline-none text-sm text-gray-900 font-normal placeholder:text-gray-400"
+                                        />
+                                    </div>
+                                    <div className="h-7 w-px bg-gray-200" />
+                                    <a
+                                        href="/services_data"
+                                        className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black rounded-lg px-4 py-2 font-normal text-sm transition-colors flex items-center justify-center gap-1.5"
+                                    >
+                                        Search
+                                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                    </a>
+                                </div>
+                            </div>
+                        ) : (
                             <div
-                                className="relative"
+                                className="relative hidden md:block"
                                 ref={servicesMenuRef}
                                 onMouseEnter={() => setIsServicesMenuOpen(true)}
                                 onMouseLeave={() => setIsServicesMenuOpen(false)}
@@ -175,18 +193,18 @@ export default function Navbar() {
                                     </div>
                                 ) : null}
                             </div>
-                            <a href="/login" className="text-sm lg:text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors">
-                                Sign In
-                            </a>
-                            <a
-                                href="/get-started"
-                                className="group bg-[#F8B90C] hover:bg-[#efb30c] text-black px-5 py-2.5 rounded-lg text-sm lg:text-base font-normal transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
-                            >
-                                Get Started
-                                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                            </a>
-                        </div>
-                    )}
+                        )}
+                        <a href="/login" className="hidden md:inline-flex text-sm lg:text-base font-medium text-gray-600 hover:text-[#0032FF] transition-colors whitespace-nowrap">
+                            Sign In
+                        </a>
+                        <a
+                            href="/get-started"
+                            className="hidden md:inline-flex group bg-[#F8B90C] hover:bg-[#efb30c] text-black px-5 py-2.5 rounded-lg text-sm lg:text-base font-normal transition-colors whitespace-nowrap items-center gap-1.5"
+                        >
+                            Get Started
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>

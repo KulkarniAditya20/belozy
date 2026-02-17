@@ -23,11 +23,13 @@ function LoginPageContent() {
     return (
         <main className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-                <a href="/" className="inline-flex items-center">
-                    <Image src="/LOGO.svg" alt="Balozy" width={150} height={44} className="h-10 w-auto" priority />
-                </a>
+                <div className="flex justify-center">
+                    <a href="/" className="inline-flex items-center">
+                        <Image src="/LOGO.svg" alt="Balozy" width={150} height={44} className="h-10 w-auto" priority />
+                    </a>
+                </div>
 
-                <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr]">
+                <div className="mt-6 mx-auto max-w-xl">
                     <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_24px_46px_-30px_rgba(0,0,0,0.35)] sm:p-6">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0032FF]">Welcome back</p>
                         <h1 className="mt-2 text-3xl font-black leading-tight text-gray-900 sm:text-[34px]">Sign in to Balozy</h1>
@@ -87,19 +89,6 @@ function LoginPageContent() {
                         </p>
                     </section>
 
-                    <section className="rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-blue-50/60 p-5 shadow-[0_24px_46px_-30px_rgba(0,0,0,0.25)] sm:p-6">
-                        <h2 className="text-xl font-black text-gray-900 sm:text-2xl">{role === 'pro' ? 'Professional Access' : 'Customer Access'}</h2>
-                        <p className="mt-2.5 text-sm text-gray-600 sm:text-base">
-                            {role === 'pro'
-                                ? 'See incoming leads, update availability, and manage your profile.'
-                                : 'Discover trusted services, compare pros, and book with confidence.'}
-                        </p>
-                        <ul className="mt-5 space-y-2.5 text-sm text-gray-600">
-                            <li className="rounded-xl border border-gray-200 bg-white px-3.5 py-2.5">Secure sign-in and checkout</li>
-                            <li className="rounded-xl border border-gray-200 bg-white px-3.5 py-2.5">Verified professionals only</li>
-                            <li className="rounded-xl border border-gray-200 bg-white px-3.5 py-2.5">Real-time booking updates</li>
-                        </ul>
-                    </section>
                 </div>
             </div>
         </main>

@@ -1,4 +1,5 @@
 import { ArrowRight, Briefcase, Home } from 'lucide-react';
+import Image from 'next/image';
 
 interface GetStartedPageProps {
     searchParams?: Record<string, string | string[] | undefined>;
@@ -11,6 +12,11 @@ export default function GetStartedPage({ searchParams }: GetStartedPageProps) {
     return (
         <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-28 pb-16 px-6">
             <div className="max-w-5xl mx-auto">
+                <div className="mb-8 flex justify-center">
+                    <a href="/" className="inline-flex items-center">
+                        <Image src="/LOGO.svg" alt="Balozy" width={150} height={44} className="h-10 w-auto" priority />
+                    </a>
+                </div>
                 <div className="text-center mb-12">
                     <h1 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
                         Get Started with Balozy

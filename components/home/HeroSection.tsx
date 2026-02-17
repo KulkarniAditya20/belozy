@@ -105,18 +105,18 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
           {[
             { icon: Shield, title: 'Industry Experts', desc: 'Top 1% vetted pros only.', color: 'text-yellow-500' },
             { icon: Clock, title: 'On-Demand Speed', desc: 'Booking made simple.', color: 'text-blue-600' },
             { icon: Star, title: 'High Satisfaction', desc: 'Premium quality results.', color: 'text-yellow-500' },
           ].map((item, i) => (
             <motion.div key={i} whileHover={{ y: -6 }} className="group cursor-default">
-              <div className="mb-3 inline-flex items-center justify-center w-12 h-12 bg-white rounded-2xl border border-gray-100 shadow-sm transition-all">
-                <item.icon className={`w-5 h-5 ${item.color}`} />
+              <div className="mb-2 sm:mb-3 inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm transition-all">
+                <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${item.color}`} />
               </div>
-              <h4 className="text-lg font-extrabold text-gray-900 mb-1.5">{item.title}</h4>
-              <p className="text-sm text-gray-500 font-medium">{item.desc}</p>
+              <h4 className="text-base sm:text-lg font-extrabold text-gray-900 mb-0.5 sm:mb-1.5 leading-tight">{item.title}</h4>
+              <p className="hidden sm:block text-sm text-gray-500 font-medium">{item.desc}</p>
             </motion.div>
           ))}
         </div>

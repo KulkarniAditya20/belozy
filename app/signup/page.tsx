@@ -16,9 +16,11 @@ function SignupPageContent() {
     return (
         <main className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 px-4 py-8 sm:px-6">
             <div className="mx-auto max-w-4xl">
-                <a href="/" className="inline-flex items-center">
-                    <Image src="/LOGO.svg" alt="Balozy" width={150} height={44} className="h-10 w-auto" priority />
-                </a>
+                <div className="flex justify-center">
+                    <a href="/" className="inline-flex items-center">
+                        <Image src="/LOGO.svg" alt="Balozy" width={150} height={44} className="h-10 w-auto" priority />
+                    </a>
+                </div>
 
                 <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_26px_52px_-30px_rgba(0,0,0,0.3)] sm:p-6">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0032FF]">Create account</p>
